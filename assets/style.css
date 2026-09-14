@@ -1,0 +1,135 @@
+/* 色票沿用院內公告設計規範（設計交接 Brief §5） */
+:root{
+  --main:#0b5c8f; --main-dark:#083f63; --teal:#0a8080;
+  --up:#1c7a45; --down:#b06000; --alert:#c0392b;
+  --note-bg:#fff7e8; --note-border:#e0a93b;
+  --page:#f4f7fa; --card:#fff; --ink:#1f2933; --muted:#5b6b7c;
+  --line:#dbe3ea;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --page:#0f1720; --card:#18222d; --ink:#e6edf3; --muted:#9fb0c0;
+    --line:#2a3947; --note-bg:#2a2418; --main:#4a9fd4; --main-dark:#0d2a40;
+    --up:#4ec27f; --alert:#ff7a6b;
+  }
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--page); color:var(--ink);
+  font:15px/1.7 "Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif;
+}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+a{color:var(--main)}
+a:hover{color:var(--teal)}
+
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:8px;top:8px;background:#fff;padding:8px;z-index:99}
+
+.hero{background:linear-gradient(135deg,var(--main),var(--main-dark));color:#fff;padding:20px 0}
+.brand{display:flex;align-items:center;gap:16px}
+/* Logo 為綠色圖形＋深灰文字，無深底版本 → 墊白底板，深色線稿才看得見 */
+.mark{flex:0 0 auto;background:#fff;border-radius:10px;padding:7px 11px;line-height:0;
+  box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.mark img{height:44px;width:auto;display:block}
+.hero .home{color:#fff;text-decoration:none;font-size:23px;font-weight:700;line-height:1.25}
+.hero .sub{margin:5px 0 0;opacity:.85;font-size:13px}
+@media (max-width:560px){
+  .brand{gap:12px}
+  .mark{padding:5px 8px}
+  .mark img{height:34px}
+  .hero .home{font-size:19px}
+  .hero .sub{font-size:12px}
+}
+
+.crumb{background:var(--card);border-bottom:1px solid var(--line);padding:9px 0;font-size:13px}
+.crumb a{text-decoration:none}
+.crumb span{color:var(--muted)}
+
+main{padding:26px 20px 50px}
+
+h2{font-size:19px;margin:32px 0 12px;padding-left:11px;border-left:5px solid var(--main)}
+h3{font-size:16px;margin:22px 0 8px}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:12px;margin:20px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;text-align:center}
+.stat b{display:block;font-size:26px;color:var(--main);line-height:1.2}
+.stat span{font-size:12px;color:var(--muted)}
+
+.note{background:var(--note-bg);border-left:4px solid var(--note-border);padding:12px 15px;border-radius:0 6px 6px 0;margin:18px 0;font-size:14px}
+.alert{background:transparent;border:2px solid var(--alert);color:var(--alert);padding:12px 15px;border-radius:6px;margin:18px 0;font-weight:700;font-size:14px}
+
+/* 科部速查 */
+.groups{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;margin:18px 0}
+.grp{margin:12px 0}
+.grp:first-child{margin-top:0}
+.grp>b{display:inline-block;background:var(--main-dark);color:#fff;font-size:12px;padding:3px 10px;border-radius:4px;margin-bottom:7px}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{display:inline-flex;align-items:center;gap:5px;background:var(--page);border:1px solid var(--line);border-radius:14px;padding:4px 11px;font-size:13px;text-decoration:none}
+.pill:hover{border-color:var(--main);background:var(--card)}
+.pill i{font-style:normal;background:var(--main);color:#fff;border-radius:9px;padding:0 6px;font-size:11px}
+
+/* 公告卡 */
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:15px 17px;margin:11px 0}
+.card h4{margin:0 0 7px;font-size:15.5px;line-height:1.5}
+.notice{white-space:pre-line;line-height:1.9}
+.card h4 a{text-decoration:none}
+.meta{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:9px;margin-bottom:8px}
+.meta code{background:var(--page);padding:1px 6px;border-radius:3px;font-size:11.5px}
+.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+.tag{font-size:11.5px;background:var(--page);border:1px solid var(--line);border-radius:11px;padding:2px 9px;color:var(--muted);text-decoration:none}
+.tag:hover{border-color:var(--teal);color:var(--teal)}
+
+.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap}
+.b-new{background:#e8f5ee;color:var(--up)}
+.b-hot{background:#fdecea;color:var(--alert)}
+.b-rev{background:var(--note-bg);color:#8a5a00}
+/* 異動類型徽章 */
+.b-points{background:#e8f5ee;color:var(--up)}
+.b-rule{background:#e7f0f7;color:var(--main)}
+.b-new{background:#e8f5ee;color:var(--up)}
+.b-unknown{background:var(--note-bg);color:#8a5a00}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .b-points{background:#14361f}
+  :root:not([data-theme="light"]) .b-rule{background:#14283a}
+  :root:not([data-theme="light"]) .b-unknown{background:#2a2418}
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .b-new{background:#14361f}
+  :root:not([data-theme="light"]) .b-hot{background:#3a1c18}
+}
+
+/* 點數異動表 */
+.tw{overflow-x:auto;margin:11px 0}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:600px}
+th,td{border:1px solid var(--line);padding:7px 9px;text-align:left}
+th{background:var(--main);color:#fff;font-weight:600;white-space:nowrap}
+td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.old{text-decoration:line-through;color:var(--muted)}
+.new{color:var(--up);font-weight:700}
+.dn{color:var(--down);font-weight:700}
+tr:nth-child(even) td{background:color-mix(in srgb,var(--page) 55%,transparent)}
+
+.q{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:8px;font-size:15px;background:var(--card);color:var(--ink);font-family:inherit}
+.q:focus{outline:2px solid var(--main);border-color:var(--main)}
+.empty{color:var(--muted);padding:22px;text-align:center}
+
+footer{background:var(--card);border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
+footer .warn{border:2px solid var(--alert);color:var(--alert);padding:10px 13px;border-radius:6px;margin:0 0 14px}
+.foot{display:flex;align-items:center;gap:15px}
+.foot p{margin:0;line-height:1.8}
+.fmark{height:60px;width:auto;flex:0 0 auto}
+/* 深色模式下 logo 的深灰文字會糊掉，墊個淡底板 */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .fmark{background:#fff;border-radius:8px;padding:5px 8px}
+}
+@media (max-width:560px){.foot{gap:11px}.fmark{height:42px}}
+
+#top{position:fixed;right:18px;bottom:18px;width:42px;height:42px;border:0;border-radius:50%;background:var(--main);color:#fff;font-size:19px;cursor:pointer;opacity:0;pointer-events:none;transition:.2s}
+#top.on{opacity:.9;pointer-events:auto}
+
+@media print{
+  .hero,.crumb,#top,.q,footer .warn{display:none}
+  body{background:#fff;font-size:11pt}
+  .card{break-inside:avoid;border-color:#999}
+  a{text-decoration:none;color:#000}
+}
