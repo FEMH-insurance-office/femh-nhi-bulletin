@@ -1,135 +1,348 @@
-/* 色票沿用院內公告設計規範（設計交接 Brief §5） */
-:root{
-  --main:#0b5c8f; --main-dark:#083f63; --teal:#0a8080;
-  --up:#1c7a45; --down:#b06000; --alert:#c0392b;
-  --note-bg:#fff7e8; --note-border:#e0a93b;
-  --page:#f4f7fa; --card:#fff; --ink:#1f2933; --muted:#5b6b7c;
-  --line:#dbe3ea;
+/* ===========================================================
+   健保公告彙整 — 樣式
+   配色與排版依《健保署公告院內查詢系統 開發規格說明 v2》§9
+   莫蘭迪色系：低彩度帶灰調。
+   關鍵限制：低對比只能用在標籤底色、分隔線、區塊底色等裝飾性元素，
+   所有文字與功能性元件仍須達 §10 的對比度要求。
+   所有色彩組合已用程式驗算，數值註記於各 token 旁。
+   =========================================================== */
+
+:root {
+  /* 基底 */
+  --c-bg:             #F2EFEB;   /* 頁面底色，暖灰白 */
+  --c-surface:        #FBFAF8;   /* 卡片／清單列底色 */
+  --c-surface-raised: #E9E4DD;   /* 強調區塊底色 */
+  --c-border:         #D8D2C9;   /* 分隔線 */
+  --c-border-strong:  #8C8478;   /* 輸入框外框 3.54:1（規格給的 #B8B0A5 只有 2.06:1，未達 3:1）*/
+
+  /* 文字 */
+  --c-text:           #2E2B28;   /* 12.28:1 / 13.49:1 */
+  --c-text-muted:     #635E58;   /*  5.60:1 /  6.15:1 */
+
+  /* 互動 */
+  --c-link:           #4A6274;   /*  5.57:1 /  6.12:1 */
+  --c-link-hover:     #34495A;   /*  8.96:1 */
+  --c-focus:          #3D5A80;   /*  6.16:1 */
+
+  /* 狀態 */
+  --c-important-text: #7A5C28;  --c-important-bg: #F0E6D2;  /* 5.00:1 */
+  --c-alert-text:     #8E4033;  --c-alert-bg:     #F0DFDA;  /* 5.55:1 */
+
+  /* 公告類型（四種，成對使用） */
+  --c-board-notice-bg:      #DDE3E7;  --c-board-notice-text:      #3A4A54;  /* 7.09:1 */
+  --c-board-regulation-bg:  #E4DEE6;  --c-board-regulation-text:  #4A3F52;  /* 7.48:1 */
+  --c-board-institution-bg: #DCE2DC;  --c-board-institution-text: #3B4A3C;  /* 7.15:1 */
+  --c-board-press-bg:       #E6E1D5;  --c-board-press-text:       #4F4835;  /* 6.97:1 */
+
+  /* 科部標籤（中性不分色——科部超過 90 個，配色只會變視覺噪音）*/
+  --c-dept-bg:   #E5E2DD;  --c-dept-text: #4A4741;   /* 7.16:1 */
+
+  /* 點數異動（莫蘭迪調，仍達 5.8:1 以上）*/
+  --c-up:     #3E5445;  --c-up-bg:   #DEE5DF;   /* 調升 苔綠 徽章 6.40:1／卡片 7.87:1 */
+  --c-down:   #8E4033;  --c-down-bg: #F0DFDA;   /* 調降 磚紅 徽章 5.55:1／卡片 6.87:1 */
+
+  /* 尺寸 */
+  --r:     4px;   /* 圓角統一 4px */
+  --r-tag: 3px;   /* 標籤 3px */
 }
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --page:#0f1720; --card:#18222d; --ink:#e6edf3; --muted:#9fb0c0;
-    --line:#2a3947; --note-bg:#2a2418; --main:#4a9fd4; --main-dark:#0d2a40;
-    --up:#4ec27f; --alert:#ff7a6b;
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --c-bg:             #23211E;
+    --c-surface:        #2C2A26;
+    --c-surface-raised: #383530;
+    --c-border:         #45413A;
+    --c-border-strong:  #8A8378;
+    --c-text:           #EDE9E3;
+    --c-text-muted:     #B0A99F;
+    --c-link:           #9BB3C4;
+    --c-link-hover:     #C0D2DF;
+    --c-focus:          #8FAFD4;
+    --c-important-text: #E0BE7C;  --c-important-bg: #3D3424;
+    --c-alert-text:     #E8A093;  --c-alert-bg:     #3D2822;
+    --c-board-notice-bg:      #2E3A42;  --c-board-notice-text:      #C3D4DE;
+    --c-board-regulation-bg:  #372F3C;  --c-board-regulation-text:  #D3C6DA;
+    --c-board-institution-bg: #2C3A2D;  --c-board-institution-text: #C4D6C5;
+    --c-board-press-bg:       #3A352A;  --c-board-press-text:       #DDD4BE;
+    --c-dept-bg:   #38352F;  --c-dept-text: #C9C3B9;
+    --c-up:     #8FC0A0;  --c-up-bg:   #26362B;
+    --c-down:   #E8A093;  --c-down-bg: #3D2822;
   }
 }
-*{box-sizing:border-box}
-body{
-  margin:0; background:var(--page); color:var(--ink);
-  font:15px/1.7 "Microsoft JhengHei","PingFang TC","Noto Sans TC",system-ui,sans-serif;
-}
-.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-a{color:var(--main)}
-a:hover{color:var(--teal)}
 
-.skip{position:absolute;left:-9999px}
-.skip:focus{left:8px;top:8px;background:#fff;padding:8px;z-index:99}
+/* ---------- 基礎 ---------- */
 
-.hero{background:linear-gradient(135deg,var(--main),var(--main-dark));color:#fff;padding:20px 0}
-.brand{display:flex;align-items:center;gap:16px}
-/* Logo 為綠色圖形＋深灰文字，無深底版本 → 墊白底板，深色線稿才看得見 */
-.mark{flex:0 0 auto;background:#fff;border-radius:10px;padding:7px 11px;line-height:0;
-  box-shadow:0 2px 8px rgba(0,0,0,.18)}
-.mark img{height:44px;width:auto;display:block}
-.hero .home{color:#fff;text-decoration:none;font-size:23px;font-weight:700;line-height:1.25}
-.hero .sub{margin:5px 0 0;opacity:.85;font-size:13px}
-@media (max-width:560px){
-  .brand{gap:12px}
-  .mark{padding:5px 8px}
-  .mark img{height:34px}
-  .hero .home{font-size:19px}
-  .hero .sub{font-size:12px}
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-text);
+  /* 不引入外部字型 CDN——院內網路可能擋外連，依賴系統字型堆疊 */
+  font-family: "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+  font-size: 18px;
+  line-height: 1.8;          /* 中文內文行高 1.8 是下限 */
+  -webkit-text-size-adjust: 100%;
 }
 
-.crumb{background:var(--card);border-bottom:1px solid var(--line);padding:9px 0;font-size:13px}
-.crumb a{text-decoration:none}
-.crumb span{color:var(--muted)}
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
 
-main{padding:26px 20px 50px}
+a { color: var(--c-link); }
+a:hover { color: var(--c-link-hover); }
 
-h2{font-size:19px;margin:32px 0 12px;padding-left:11px;border-left:5px solid var(--main)}
-h3{font-size:16px;margin:22px 0 8px}
-
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:12px;margin:20px 0}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;text-align:center}
-.stat b{display:block;font-size:26px;color:var(--main);line-height:1.2}
-.stat span{font-size:12px;color:var(--muted)}
-
-.note{background:var(--note-bg);border-left:4px solid var(--note-border);padding:12px 15px;border-radius:0 6px 6px 0;margin:18px 0;font-size:14px}
-.alert{background:transparent;border:2px solid var(--alert);color:var(--alert);padding:12px 15px;border-radius:6px;margin:18px 0;font-weight:700;font-size:14px}
-
-/* 科部速查 */
-.groups{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;margin:18px 0}
-.grp{margin:12px 0}
-.grp:first-child{margin-top:0}
-.grp>b{display:inline-block;background:var(--main-dark);color:#fff;font-size:12px;padding:3px 10px;border-radius:4px;margin-bottom:7px}
-.pills{display:flex;flex-wrap:wrap;gap:6px}
-.pill{display:inline-flex;align-items:center;gap:5px;background:var(--page);border:1px solid var(--line);border-radius:14px;padding:4px 11px;font-size:13px;text-decoration:none}
-.pill:hover{border-color:var(--main);background:var(--card)}
-.pill i{font-style:normal;background:var(--main);color:#fff;border-radius:9px;padding:0 6px;font-size:11px}
-
-/* 公告卡 */
-.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:15px 17px;margin:11px 0}
-.card h4{margin:0 0 7px;font-size:15.5px;line-height:1.5}
-.notice{white-space:pre-line;line-height:1.9}
-.card h4 a{text-decoration:none}
-.meta{font-size:12.5px;color:var(--muted);display:flex;flex-wrap:wrap;gap:9px;margin-bottom:8px}
-.meta code{background:var(--page);padding:1px 6px;border-radius:3px;font-size:11.5px}
-.tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
-.tag{font-size:11.5px;background:var(--page);border:1px solid var(--line);border-radius:11px;padding:2px 9px;color:var(--muted);text-decoration:none}
-.tag:hover{border-color:var(--teal);color:var(--teal)}
-
-.badge{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;font-weight:700;white-space:nowrap}
-.b-new{background:#e8f5ee;color:var(--up)}
-.b-hot{background:#fdecea;color:var(--alert)}
-.b-rev{background:var(--note-bg);color:#8a5a00}
-/* 異動類型徽章 */
-.b-points{background:#e8f5ee;color:var(--up)}
-.b-rule{background:#e7f0f7;color:var(--main)}
-.b-new{background:#e8f5ee;color:var(--up)}
-.b-unknown{background:var(--note-bg);color:#8a5a00}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]) .b-points{background:#14361f}
-  :root:not([data-theme="light"]) .b-rule{background:#14283a}
-  :root:not([data-theme="light"]) .b-unknown{background:#2a2418}
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]) .b-new{background:#14361f}
-  :root:not([data-theme="light"]) .b-hot{background:#3a1c18}
+/* 焦點外框必須明顯可見，不可 outline:none */
+:focus-visible {
+  outline: 3px solid var(--c-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
-/* 點數異動表 */
-.tw{overflow-x:auto;margin:11px 0}
-table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:600px}
-th,td{border:1px solid var(--line);padding:7px 9px;text-align:left}
-th{background:var(--main);color:#fff;font-weight:600;white-space:nowrap}
-td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-.old{text-decoration:line-through;color:var(--muted)}
-.new{color:var(--up);font-weight:700}
-.dn{color:var(--down);font-weight:700}
-tr:nth-child(even) td{background:color-mix(in srgb,var(--page) 55%,transparent)}
-
-.q{width:100%;padding:11px 14px;border:1px solid var(--line);border-radius:8px;font-size:15px;background:var(--card);color:var(--ink);font-family:inherit}
-.q:focus{outline:2px solid var(--main);border-color:var(--main)}
-.empty{color:var(--muted);padding:22px;text-align:center}
-
-footer{background:var(--card);border-top:1px solid var(--line);padding:22px 0;font-size:12.5px;color:var(--muted);margin-top:40px}
-footer .warn{border:2px solid var(--alert);color:var(--alert);padding:10px 13px;border-radius:6px;margin:0 0 14px}
-.foot{display:flex;align-items:center;gap:15px}
-.foot p{margin:0;line-height:1.8}
-.fmark{height:60px;width:auto;flex:0 0 auto}
-/* 深色模式下 logo 的深灰文字會糊掉，墊個淡底板 */
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]) .fmark{background:#fff;border-radius:8px;padding:5px 8px}
+.skip { position: absolute; left: -9999px; }
+.skip:focus {
+  left: 12px; top: 12px; z-index: 99;
+  background: var(--c-surface); color: var(--c-text);
+  padding: 12px 18px; border: 2px solid var(--c-focus); border-radius: var(--r);
 }
-@media (max-width:560px){.foot{gap:11px}.fmark{height:42px}}
 
-#top{position:fixed;right:18px;bottom:18px;width:42px;height:42px;border:0;border-radius:50%;background:var(--main);color:#fff;font-size:19px;cursor:pointer;opacity:0;pointer-events:none;transition:.2s}
-#top.on{opacity:.9;pointer-events:auto}
+/* ---------- 頁首 ---------- */
 
-@media print{
-  .hero,.crumb,#top,.q,footer .warn{display:none}
-  body{background:#fff;font-size:11pt}
-  .card{break-inside:avoid;border-color:#999}
-  a{text-decoration:none;color:#000}
+.hero {
+  background: var(--c-surface-raised);
+  border-bottom: 1px solid var(--c-border);
+  padding: 20px 0;
+}
+.brand { display: flex; align-items: center; gap: 18px; }
+
+/* Logo 是白底細線稿。直接去背放在米色頁首上，線條只剩約 2:1 對比，
+   等於看不見——所以墊一塊白底，把它原本設計的底色還給它。 */
+.mark {
+  flex: 0 0 auto; display: inline-block; line-height: 0;
+  background: #fff; border: 1px solid var(--c-border);
+  border-radius: 6px; padding: 6px 10px;
+}
+.mark img { height: 72px; width: auto; display: block; }
+.hero .home {
+  color: var(--c-text); text-decoration: none;
+  font-size: 27px; font-weight: 600; line-height: 1.4;
+}
+.hero .home:hover { color: var(--c-link-hover); }
+.hero .sub { margin: 4px 0 0; color: var(--c-text-muted); font-size: 15px; line-height: 1.5; }
+
+.crumb {
+  background: var(--c-surface);
+  border-bottom: 1px solid var(--c-border);
+  padding: 11px 0; font-size: 15px;
+}
+.crumb a { text-decoration: none; }
+.crumb span { color: var(--c-text-muted); }
+
+main { padding: 28px 20px 60px; }
+
+h2 {
+  font-size: 21px; font-weight: 600; line-height: 1.5;
+  margin: 36px 0 14px; padding-left: 12px;
+  border-left: 4px solid var(--c-link);
+}
+h3 { font-size: 18px; font-weight: 600; line-height: 1.5; margin: 26px 0 10px; }
+
+/* ---------- 統計 ---------- */
+
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 14px; margin: 22px 0; }
+.stat {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r); padding: 16px; text-align: center;
+}
+.stat b { display: block; font-size: 32px; font-weight: 600; color: var(--c-text); line-height: 1.2; }
+.stat span { font-size: 14px; color: var(--c-text-muted); }
+
+/* ---------- 提示區塊 ---------- */
+
+.note {
+  background: var(--c-important-bg);
+  border-left: 4px solid var(--c-important-text);
+  padding: 14px 18px; border-radius: 0 var(--r) var(--r) 0;
+  margin: 20px 0; font-size: 17px;
+}
+.alert {
+  background: var(--c-alert-bg); border: 1px solid var(--c-alert-text);
+  color: var(--c-alert-text); padding: 14px 18px;
+  border-radius: var(--r); margin: 20px 0; font-weight: 600; font-size: 17px;
+}
+
+/* ---------- 科部速查 ---------- */
+
+.groups {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r); padding: 18px; margin: 20px 0;
+}
+.grp { margin: 16px 0; }
+.grp:first-child { margin-top: 0; }
+.grp > b {
+  display: inline-block; background: var(--c-surface-raised);
+  color: var(--c-text); border: 1px solid var(--c-border);
+  font-size: 15px; font-weight: 600;
+  padding: 4px 12px; border-radius: var(--r-tag); margin-bottom: 9px;
+}
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill {
+  display: inline-flex; align-items: center; gap: 7px; min-height: 40px;
+  background: var(--c-bg); border: 1px solid var(--c-border);
+  border-radius: var(--r); padding: 6px 14px;
+  font-size: 16px; text-decoration: none; color: var(--c-text);
+}
+.pill:hover { background: var(--c-surface-raised); color: var(--c-text); }
+.pill i {
+  font-style: normal; background: var(--c-dept-bg); color: var(--c-dept-text);
+  border-radius: var(--r-tag); padding: 1px 8px; font-size: 14px; font-weight: 600;
+}
+
+/* ---------- 公告卡 ---------- */
+
+.card {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r); padding: 18px 20px; margin: 14px 0;
+}
+.card h4 { margin: 0 0 9px; font-size: 18px; font-weight: 500; line-height: 1.6; }
+.card h4 a { text-decoration: none; }
+.notice { white-space: pre-line; line-height: 1.9; font-size: 17px; }
+
+.meta {
+  font-size: 15px; color: var(--c-text-muted); line-height: 1.5;
+  display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px;
+}
+.meta code {
+  background: var(--c-surface-raised); color: var(--c-text);
+  padding: 2px 8px; border-radius: var(--r-tag); font-size: 14px;
+}
+
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 11px; }
+.tag {
+  font-size: 14px; font-weight: 500; line-height: 1.4;
+  background: var(--c-dept-bg); color: var(--c-dept-text);
+  border-radius: var(--r-tag); padding: 3px 11px; text-decoration: none;
+}
+a.tag:hover { background: var(--c-surface-raised); color: var(--c-text); }
+
+/* ---------- 徽章 ---------- */
+/* 不可只用顏色傳達意義——每個徽章都有文字，黑白列印仍可分辨 */
+
+.badge {
+  display: inline-block; font-size: 14px; font-weight: 600; line-height: 1.4;
+  padding: 2px 10px; border-radius: var(--r-tag); white-space: nowrap;
+}
+.b-new      { background: var(--c-up-bg);        color: var(--c-up); }
+.b-points   { background: var(--c-up-bg);        color: var(--c-up); }
+.b-rule     { background: var(--c-board-notice-bg); color: var(--c-board-notice-text); }
+.b-unknown  { background: var(--c-important-bg); color: var(--c-important-text); }
+.b-rev      { background: var(--c-important-bg); color: var(--c-important-text); }
+.b-hot      { background: var(--c-alert-bg);     color: var(--c-alert-text); }
+
+/* ---------- 表格 ---------- */
+
+.tw { overflow-x: auto; margin: 14px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 16px; min-width: 640px; }
+th, td { border: 1px solid var(--c-border); padding: 10px 12px; text-align: left; line-height: 1.6; }
+th {
+  background: var(--c-surface-raised); color: var(--c-text);
+  font-weight: 600; white-space: nowrap;
+}
+td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:nth-child(even) td { background: var(--c-bg); }
+tbody tr:hover td { background: var(--c-surface-raised); }
+
+.old { text-decoration: line-through; color: var(--c-text-muted); }
+.new { color: var(--c-up);   font-weight: 600; }
+.dn  { color: var(--c-down); font-weight: 600; }
+
+/* ---------- 表單 ---------- */
+
+.q {
+  width: 100%; min-height: 48px; padding: 13px 16px;
+  border: 1px solid var(--c-border-strong); border-radius: var(--r);
+  font-size: 18px; font-family: inherit;
+  background: var(--c-surface); color: var(--c-text);
+}
+.q::placeholder { color: var(--c-text-muted); }
+.empty { color: var(--c-text-muted); padding: 28px; text-align: center; font-size: 17px; }
+
+/* ---------- 頁尾 ---------- */
+
+footer {
+  background: var(--c-surface); border-top: 1px solid var(--c-border);
+  padding: 26px 0; font-size: 15px; color: var(--c-text-muted); margin-top: 48px;
+}
+footer .warn {
+  background: var(--c-alert-bg); border: 1px solid var(--c-alert-text);
+  color: var(--c-alert-text); padding: 13px 16px;
+  border-radius: var(--r); margin: 0 0 16px; line-height: 1.7;
+}
+.foot { display: flex; align-items: center; gap: 18px; }
+.foot p { margin: 0; line-height: 1.9; }
+.fmark {
+  height: 96px; width: auto; flex: 0 0 auto;
+  background: #fff; border: 1px solid var(--c-border);
+  border-radius: 6px; padding: 6px 10px;
+}
+
+/* ---------- 回到頂端 ---------- */
+
+#top {
+  position: fixed; right: 20px; bottom: 20px;
+  width: 48px; height: 48px;              /* 觸控目標 >= 44x44 */
+  border: 1px solid var(--c-border-strong); border-radius: var(--r);
+  background: var(--c-surface); color: var(--c-text);
+  font-size: 21px; cursor: pointer;
+  opacity: 0; pointer-events: none; transition: opacity 150ms;
+}
+#top.on { opacity: 1; pointer-events: auto; }
+#top:hover { background: var(--c-surface-raised); }
+
+/* 不加入非使用者觸發的動畫；使用者要求減少動態時全部停用 */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}
+
+/* ---------- 響應式 ---------- */
+
+@media (max-width: 768px) {
+  body { font-size: 17px; }
+  .wrap { padding: 0 16px; }
+  main { padding: 22px 16px 56px; }
+  .brand { gap: 14px; }
+  .mark { padding: 5px 8px; }
+  .mark img { height: 52px; }
+  .hero .home { font-size: 22px; }
+  .hero .sub { font-size: 14px; }
+  h2 { font-size: 19px; margin: 28px 0 12px; }
+  .card { padding: 15px 16px; }
+  .stat b { font-size: 27px; }
+  .foot { gap: 13px; }
+  .fmark { height: 76px; padding: 5px 8px; }
+}
+
+/* ---------- 列印 ---------- */
+/* 黑字白底；標記改以外框加文字呈現，不依賴底色 */
+
+@media print {
+  .hero, .crumb, #top, .q, footer .warn, .fmark { display: none; }
+  body { background: #fff; color: #000; font-size: 11pt; line-height: 1.6; }
+  .wrap { max-width: none; padding: 0; }
+  .card, .groups, .stat {
+    background: #fff; border: 1px solid #999;
+    break-inside: avoid; page-break-inside: avoid;
+  }
+  h2 { border-left-color: #000; }
+  a { color: #000; text-decoration: underline; }
+  /* 連結在其後以括號附上網址，健保署原文網址必須印出來 */
+  .card h4 a::after, .srcbar a::after { content: "（" attr(href) "）"; font-size: 9pt; word-break: break-all; }
+  .badge, .tag, .pill {
+    background: #fff !important; color: #000 !important;
+    border: 1px solid #666; border-radius: 0;
+  }
+  th { background: #eee !important; color: #000 !important; }
+  td, th { border-color: #999; }
+  tr:nth-child(even) td, tbody tr:hover td { background: #fff !important; }
+  .new, .dn { color: #000 !important; font-weight: 700; }
+  table { break-inside: auto; }
+  tr { break-inside: avoid; page-break-inside: avoid; }
 }
