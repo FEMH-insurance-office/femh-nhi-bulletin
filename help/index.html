@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>使用說明｜健保公告／健保新知</title>
+<meta name="description" content="院內健保公告查詢與變更摘要平台。由醫療事務處保險課彙整衛生福利部中央健康保險署公告。">
+<link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<a class="skip" href="#main">跳至主要內容</a>
+
+<header class="hero">
+  <div class="wrap brand">
+    <a class="mark" href="../index.html">
+      <img src="../assets/emblem.png"
+           srcset="../assets/emblem.png 1x, ../assets/emblem@2x.png 2x"
+           width="100" height="72" alt="醫療事務處">
+    </a>
+    <div class="title">
+      <a class="home" href="../index.html">健保公告／健保新知</a>
+      <p class="sub">醫療事務處 保險課　‧　健保署公告查詢與變更摘要</p>
+    </div>
+  </div>
+</header>
+
+<nav class="mainnav" aria-label="主選單">
+  <div class="wrap">
+    <a href="../index.html" >首頁</a>
+    <a href="../announcements/" >公告查詢</a>
+
+    <details class="menu">
+      <summary>依科別查詢</summary>
+      <div class="menupanel">
+        <a class="menuall" href="../announcements/">全部科別 →</a>
+      </div>
+    </details>
+
+    <details class="menu">
+      <summary>公告分類</summary>
+      <div class="menupanel narrow">
+        <div class="menugrp">
+          <a href="../announcements/?type=payment-standard">支付標準<i>2</i></a>
+          <a href="../announcements/?type=drug">藥品給付<i>4</i></a>
+          <a href="../announcements/?type=quality">品質方案<i>13</i></a>
+          <a href="../announcements/?type=other">其他<i>2</i></a>
+        </div>
+      </div>
+    </details>
+
+    <a href="../help/" aria-current=page>使用說明</a>
+  </div>
+</nav>
+
+<main id="main" class="wrap">
+<h1>使用說明</h1>
+<p class="lede">本頁說明如何在本站查詢健保公告、各項分類的定義，以及資料從哪裡來。
+  不包含院內是否可執行、責任單位或作業流程——那些不在本站範圍內。</p>
+
+<nav class="toc" aria-label="本頁目錄">
+  <a href="#search">如何搜尋公告</a>
+  <a href="#dept">如何依科別查詢</a>
+  <a href="#filter">如何使用篩選條件</a>
+  <a href="#types">公告類型說明</a>
+  <a href="#changes">變更類型說明</a>
+  <a href="#source">資料來源說明</a>
+</nav>
+
+<section class="sec" id="search">
+  <h2>如何搜尋公告</h2>
+  <p>首頁或<a href="../announcements/">公告查詢</a>頁的搜尋框可以找：</p>
+  <ul>
+    <li>公告標題與重點摘要</li>
+    <li>公告文號（例：<code>健保醫字第1150117373號</code>）</li>
+    <li>診療項目代碼（例：<code>92133C</code>）</li>
+    <li>科別名稱、公告類型、變更類型</li>
+  </ul>
+  <p>搜尋詞會寫進網址，<b>可以直接把整個查詢結果的連結傳給別人</b>，
+    對方打開看到的就是同一份結果。瀏覽器的上一頁／下一頁也照常運作。</p>
+  <p class="note">搜尋比對時會忽略空白。目前不支援同義詞（打「人工關節」不會自動找到「髖關節」），
+    這項在後續規劃中。</p>
+</section>
+
+<section class="sec" id="dept">
+  <h2>如何依科別查詢</h2>
+  <p>三個入口都會到同一個地方：</p>
+  <ul>
+    <li>上方主選單的<b>依科別查詢</b></li>
+    <li>首頁的<b>依科別查詢</b>區塊</li>
+    <li>公告查詢頁左側篩選器的<b>相關科別</b>（可複選）</li>
+  </ul>
+  <p><b>同一則公告可以同時屬於多個科別</b>——支付標準修正經常一次動到十幾科。
+    系統只維護一份公告內容，不會為每一科複製一份。</p>
+  <p class="note">科別分類由醫療事務處保險課依本院部科架構人工覆核後才發布，
+    不是機器分完就直接上站。覺得分錯了請直接告訴保險課，修正會回寫成分類規則。</p>
+</section>
+
+<section class="sec" id="filter">
+  <h2>如何使用篩選條件</h2>
+  <dl class="deflist">
+    <div><dt>相關科別</dt><dd>可複選。選多科時顯示「符合任一科」的公告。</dd></div>
+    <div><dt>生效日期</dt><dd>
+      <b>即將生效</b>＝生效日還沒到的；<b>最近 30 天／3 個月／今年</b>＝已經生效的區間；
+      也可以自訂起訖日。沒有標示生效日的公告（多數新聞稿）不會出現在日期篩選結果中。
+    </dd></div>
+    <div><dt>公告類型</dt><dd>見下方「公告類型說明」。可複選。</dd></div>
+    <div><dt>變更類型</dt><dd>見下方「變更類型說明」。可複選。</dd></div>
+  </dl>
+  <p>已套用的條件會顯示在結果上方，可以逐一移除或一次清除全部。
+    手機版篩選器收在「篩選條件」按鈕裡。</p>
+</section>
+
+<section class="sec" id="types">
+  <h2>公告類型說明</h2>
+  <p>依公告主旨自動判定，<b>與健保署的發布版面不同</b>——版面是指健保署貼在哪個公布欄
+    （法規公告、健保公告、計畫徵求⋯），類型是指這則在講什麼。</p>
+  <table class="deftable">
+    <thead><tr><th>類型</th><th>包含什麼</th><th>目前則數</th></tr></thead>
+    <tbody>
+      <tr><th>支付標準</th><td>醫療服務給付項目及支付標準的修正、診療項目點數異動</td><td class="n">2</td></tr>
+      <tr><th>藥品給付</th><td>藥品給付規定、支付價格調整、專利權期滿調價</td><td class="n">4</td></tr>
+      <tr><th>特殊材料</th><td>特殊材料給付規定與價格</td><td class="n">0</td></tr>
+      <tr><th>DRG</th><td>Tw-DRGs、論病例計酬</td><td class="n">0</td></tr>
+      <tr><th>預防保健</th><td>成人與兒童預防保健、篩檢、疫苗</td><td class="n">0</td></tr>
+      <tr><th>品質方案</th><td>各式試辦計畫、照護方案、總額協定、品質確保方案、獎勵計畫</td><td class="n">13</td></tr>
+      <tr><th>其他</th><td>以上都不屬於的，多為新聞稿與行政通知</td><td class="n">2</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section class="sec" id="changes">
+  <h2>變更類型說明</h2>
+  <dl class="deflist">
+    <div><dt>點數調整</dt><dd>診療項目的支付點數有變。詳情頁會列出原點數、新點數與幅度。</dd></div>
+    <div><dt>新增</dt><dd>新增診療項目、新納入給付的藥品或新的計畫方案。</dd></div>
+    <div><dt>給付條件調整</dt><dd>點數沒動，但適用條件、申報規範或加成規則改了。
+      <b>這類最容易被忽略</b>——點數沒變不代表申報方式沒變。</dd></div>
+    <div><dt>修正</dt><dd>公告主旨明確寫「修正／修訂／異動」的既有規定。</dd></div>
+    <div><dt>刪除</dt><dd>停止適用、廢止或取消。</dd></div>
+    <div><dt>展延</dt><dd>原有計畫或規定延長實施期間。</dd></div>
+  </dl>
+</section>
+
+<section class="sec" id="source">
+  <h2>資料來源說明</h2>
+  <dl class="deflist">
+    <div><dt>公告內容</dt><dd>每日自動蒐集
+      <a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a>
+      的法規公告、健保公告、系統公告、計畫徵求、新聞發布五個版面。</dd></div>
+    <div><dt>點數異動</dt><dd>以健保署開放資料的「醫療服務給付項目及支付標準」CSV 為準，
+      比對生效日前後的版本；CSV 取不到時才改用公告附件的「修正對照表」PDF 擷取。</dd></div>
+    <div><dt>科別分類</dt><dd>依診療項目代碼區段與計畫方案名稱自動分派，
+      <b>由保險課人工覆核後才發布</b>。</dd></div>
+    <div><dt>重點摘要</dt><dd>系統依生效日與異動筆數產生草稿，由保險課確認或改寫。</dd></div>
+  </dl>
+
+  <div class="alert">
+    本站為重點整理。各項目完整內容與確切生效日，
+    <b>以健保署函報衛生福利部核定後公告之支付標準表為準</b>。
+    有疑義請以原始公告與附件為準，或洽醫療事務處保險課。
+  </div>
+
+  <p class="note">已知限制：部分公告的舊點數無法自動取得（列表標示「待確認」）；
+    掃描版 PDF 目前不做文字辨識，會標示為「掃描檔」請自行開啟閱讀。</p>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="warn">本站為重點整理，科部分類依本院部科架構歸類（部分項目跨科）。
+      各項目完整內容與確切生效日，<strong>以健保署公告之支付標準表為準</strong>。</p>
+    <div class="foot">
+      <img class="fmark" src="../assets/logo.png"
+           srcset="../assets/logo.png 1x, ../assets/logo@2x.png 2x"
+           width="106" height="96" alt="">
+      <p>整理單位：<strong>醫療事務處 保險課</strong><br>
+        資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
+        產出時間：2026-09-15 11:16</p>
+    </div>
+  </div>
+</footer>
+
+<button id="top" type="button" aria-label="回到頂端">↑</button>
+<script>
+const topBtn=document.getElementById('top');
+addEventListener('scroll',()=>topBtn.classList.toggle('on',scrollY>400),{passive:true});
+topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+// 主選單：點到選單外面就收起來，否則兩個下拉會同時開著蓋住內容
+document.addEventListener('click',e=>{
+  document.querySelectorAll('nav .menu[open]').forEach(d=>{
+    if(!d.contains(e.target)) d.open=false;
+  });
+});
+</script>
+</body>
+</html>
