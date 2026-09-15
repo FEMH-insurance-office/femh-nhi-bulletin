@@ -236,6 +236,30 @@ a.tag:hover { background: var(--c-surface-raised); color: var(--c-text); }
 .b-unknown  { background: var(--c-important-bg); color: var(--c-important-text); }
 .b-rev      { background: var(--c-important-bg); color: var(--c-important-text); }
 .b-hot      { background: var(--c-alert-bg);     color: var(--c-alert-text); }
+.b-pin      { background: var(--c-board-regulation-bg); color: var(--c-board-regulation-text); }
+
+/* ---------- 重點說明與置頂 ---------- */
+
+/* 重點說明是「不看內文也要知道的那一句」，所以比 meta 大、比標題小，
+   並且排在標題正下方——放在科部標籤後面沒有人會看。 */
+.card .hl {
+  margin: 0 0 10px; font-size: 17px; line-height: 1.75;
+  color: var(--c-text);
+}
+
+.hl-box {
+  background: var(--c-surface-raised); border: 1px solid var(--c-border);
+  border-radius: var(--r); padding: 14px 18px; margin: 20px 0;
+}
+.hl-box b { display: block; font-size: 15px; color: var(--c-text-muted); margin-bottom: 4px; }
+.hl-box p { margin: 0; font-size: 18px; line-height: 1.8; }
+
+/* 置頂區塊。不用底色區分——整頁已經夠多色塊了，改用左側粗邊，
+   黑白列印也還在。 */
+.pinned .card, .card.pin {
+  border-left: 4px solid var(--c-board-regulation-text);
+}
+.pinned { margin-bottom: 8px; }
 
 /* ---------- 表格 ---------- */
 
@@ -325,6 +349,7 @@ footer .warn {
 
 @media print {
   .hero, .crumb, #top, .q, footer .warn, .fmark { display: none; }
+  .hl-box { background: #fff; border: 1px solid #999; }
   body { background: #fff; color: #000; font-size: 11pt; line-height: 1.6; }
   .wrap { max-width: none; padding: 0; }
   .card, .groups, .stat {
