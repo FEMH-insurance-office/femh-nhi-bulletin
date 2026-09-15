@@ -114,24 +114,56 @@ h3 { font-size: 18px; font-weight: 600; line-height: 1.55; margin: 24px 0 10px; 
 h3 .n { margin-left: 10px; font-size: 14px; font-weight: 400; color: var(--c-text-muted); }
 
 main { padding-bottom: 60px; }
+/* 黏著的頁首會蓋住 #id 錨點，要留出空間 */
+:target, [id] { scroll-margin-top: 130px; }
 .lede { font-size: 19px; color: var(--c-text-muted); margin: 0 0 8px; }
 .muted { color: var(--c-text-muted); }
 .empty { color: var(--c-text-muted); padding: 22px 2px; }
 
 /* ---------- 頁首與主選單 ---------- */
 
-.hero { background: var(--c-surface-raised); border-bottom: 1px solid var(--c-border); padding: 18px 0; }
-.brand { display: flex; align-items: center; gap: 18px; }
-/* Logo 是白底細線稿，直接去背放在米色頁首上線條只剩約 2:1 對比 */
-.mark {
-  flex: 0 0 auto; display: inline-block; line-height: 0;
-  background: #fff; border: 1px solid var(--c-border);
-  border-radius: 6px; padding: 6px 10px;
+/* 頁首＋主選單整塊黏在視窗頂端。z-index 要壓過公告卡與篩選側欄，
+   但要低於手機的篩選覆蓋層（z-index 60），不然覆蓋層會被頁首蓋住。 */
+.topbar { position: sticky; top: 0; z-index: 40; }
+
+.hero {
+  background: var(--c-surface-raised); border-bottom: 1px solid var(--c-border);
+  padding: 14px 0; transition: padding 160ms ease;
 }
-.mark img { height: 66px; width: auto; display: block; }
+.brand { display: flex; align-items: center; gap: 18px; }
+
+/* 動畫版 Logo 是淺線條深底（原檔黑底），所以底板用深色不是白色。
+   影片實際內容只占畫面中間一塊（量測：x 146..799、y 66..512 / 960×720），
+   四周都是黑邊；直接放會變成一個很大的黑方塊，所以用固定比例的視窗
+   把影片放大平移，只露出圖徽那一塊。
+   --mh 是圖徽的顯示高度，其餘尺寸都由它換算：
+     影片高 = mh × 720/446 = 1.614mh    影片寬 = 1.333 × 影片高 = 2.152mh
+     左位移 = 146/960 × 影片寬 = 0.327mh 上位移 = 66/720 × 影片高 = 0.148mh
+     視窗寬 = 653/960 × 影片寬 = 1.464mh */
+.mark {
+  --mh: 60px;
+  flex: 0 0 auto; display: block; position: relative; overflow: hidden;
+  width: calc(var(--mh) * 1.464); height: var(--mh);
+  background: #14140F; border: 1px solid #2E2B24;
+  border-radius: 6px;
+}
+.mark video {
+  position: absolute; display: block; pointer-events: none;
+  width: calc(var(--mh) * 2.152); height: calc(var(--mh) * 1.614);
+  left: calc(var(--mh) * -0.327); top: calc(var(--mh) * -0.148);
+}
 .hero .home { color: var(--c-text); text-decoration: none; font-size: 26px; font-weight: 600; line-height: 1.4; }
 .hero .home:hover { color: var(--c-link-hover); }
 .hero .sub { margin: 3px 0 0; color: var(--c-text-muted); font-size: 15px; line-height: 1.5; }
+
+/* 捲動後收窄。頁首＋主選單黏著不動，展開狀態會吃掉約 150px 的高度，
+   在筆電上等於少掉一整排公告；收窄後剩約 100px。 */
+.topbar.shrunk .hero { padding: 7px 0; }
+.topbar.shrunk .mark { --mh: 40px; }
+.topbar.shrunk .hero .home { font-size: 21px; }
+.topbar.shrunk .hero .sub { display: none; }
+.topbar.shrunk .mainnav a,
+.topbar.shrunk .mainnav summary { padding-top: 9px; padding-bottom: 9px; }
 
 .mainnav { background: var(--c-surface); border-bottom: 1px solid var(--c-border); }
 .mainnav .wrap { display: flex; flex-wrap: wrap; align-items: stretch; gap: 2px; }
@@ -289,8 +321,8 @@ a.stat:hover { background: var(--c-surface-raised); }
 
 .filters {
   background: var(--c-surface); border: 1px solid var(--c-border);
-  border-radius: var(--r); position: sticky; top: 14px;
-  max-height: calc(100vh - 28px); overflow-y: auto;
+  border-radius: var(--r); position: sticky; top: 118px;
+  max-height: calc(100vh - 132px); overflow-y: auto;
 }
 .fhead { display: none; }
 .fgroup { border-bottom: 1px solid var(--c-border); padding: 14px 16px; }
@@ -609,8 +641,14 @@ footer .warn {
   }
   .factions .go { display: block; }
 
-  .mark img { height: 50px; }
-  .hero .home { font-size: 22px; }
+  .mark { --mh: 42px; }
+  .hero { padding: 10px 0; }
+  .hero .home { font-size: 20px; }
+  .hero .sub { display: none; }
+  .mainnav .wrap { overflow-x: auto; flex-wrap: nowrap; }
+  .mainnav a, .mainnav summary { white-space: nowrap; padding: 11px 13px; font-size: 16px; }
+  .filters { top: 0; }
+  :target, [id] { scroll-margin-top: 108px; }
   h1 { font-size: 23px; }
   h2 { font-size: 19px; }
   .impact > div, .info > div { flex-direction: column; gap: 4px; }
@@ -625,7 +663,7 @@ footer .warn {
 /* ---------- 列印 ---------- */
 
 @media print {
-  .hero, .mainnav, #top, .searchbar, .filters, .filtertoggle, .toolbar,
+  .topbar, .hero, .mainnav, #top, .searchbar, .filters, .filtertoggle, .toolbar,
   .pager, .chips, .back, .prevnext, footer .warn, .fmark, .toc { display: none !important; }
   body { background: #fff; color: #000; font-size: 11pt; line-height: 1.6; }
   .wrap { max-width: none; padding: 0; }

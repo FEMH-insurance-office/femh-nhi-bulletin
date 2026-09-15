@@ -12,12 +12,14 @@
 <body>
 <a class="skip" href="#main">跳至主要內容</a>
 
+<div class="topbar" id="topbar">
 <header class="hero">
   <div class="wrap brand">
-    <a class="mark" href="../../index.html">
-      <img src="../../assets/emblem.png"
-           srcset="../../assets/emblem.png 1x, ../../assets/emblem@2x.png 2x"
-           width="100" height="72" alt="醫療事務處">
+    <a class="mark" href="../../index.html" aria-label="回首頁">
+      <video src="../../assets/logo-anim.mp4"
+             autoplay muted loop playsinline disablepictureinpicture
+             aria-hidden="true" tabindex="-1"></video>
+      <span class="sr">醫療事務處</span>
     </a>
     <div class="title">
       <a class="home" href="../../index.html">健保公告／健保新知</a>
@@ -49,6 +51,7 @@
     <a href="../../help/" >使用說明</a>
   </div>
 </nav>
+</div>
 
 <main id="main" class="wrap">
 
@@ -162,16 +165,33 @@
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-09-15 11:16</p>
+        產出時間：2026-09-15 14:05</p>
     </div>
   </div>
 </footer>
 
 <button id="top" type="button" aria-label="回到頂端">↑</button>
 <script>
-const topBtn=document.getElementById('top');
-addEventListener('scroll',()=>topBtn.classList.toggle('on',scrollY>400),{passive:true});
+const topBtn=document.getElementById('top'), topbar=document.getElementById('topbar');
+addEventListener('scroll',()=>{
+  topBtn.classList.toggle('on',scrollY>400);
+  // 遲滯：收窄／展開用不同的門檻，否則在臨界點附近微捲會一直抖
+  if(scrollY>90) topbar.classList.add('shrunk');
+  else if(scrollY<40) topbar.classList.remove('shrunk');
+},{passive:true});
 topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+
+// Logo 動畫：使用者要求減少動態時停在第一格，不要一直閃
+// （頁首是黏著的，會整段時間都在視線裡）
+(function(){
+  const v=document.querySelector('.mark video'); if(!v) return;
+  const still=window.matchMedia('(prefers-reduced-motion: reduce)');
+  const sync=()=>{ if(still.matches){ v.loop=false; v.pause(); v.currentTime=0; } else { v.loop=true; v.play().catch(()=>{}); } };
+  still.addEventListener('change',sync); sync();
+  // 分頁在背景時瀏覽器會擋下自動播放，而且不會自己重試——
+  // 從別的分頁切回來就會看到一個靜止的 Logo
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden) sync(); });
+})();
 // 主選單：點到選單外面就收起來，否則兩個下拉會同時開著蓋住內容
 document.addEventListener('click',e=>{
   document.querySelectorAll('nav .menu[open]').forEach(d=>{
