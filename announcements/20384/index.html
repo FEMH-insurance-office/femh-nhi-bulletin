@@ -212,7 +212,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-09-15 17:53</p>
+        產出時間：2026-09-15 17:54</p>
     </div>
   </div>
 </footer>
@@ -231,8 +231,13 @@ addEventListener('scroll',onScroll,{passive:true});
 onScroll();
 
 topBtn.addEventListener('click',()=>{
+  const startY=scrollY;
   const smooth=!matchMedia('(prefers-reduced-motion: reduce)').matches;
   scrollTo({top:0,behavior:smooth?'smooth':'auto'});
+  // 有些環境（內嵌瀏覽器、某些企業版設定）不支援 behavior:'smooth'，
+  // 呼叫後完全不動，按鈕看起來就是壞的。等一下確認真的沒動再直接跳。
+  // 判斷用「位置完全沒變」，使用者自己捲動時就不會被搶走控制權。
+  if(smooth) setTimeout(()=>{ if(scrollY>0 && scrollY===startY) scrollTo(0,0); },400);
   // 回到頂端後把焦點交還給頁面開頭，鍵盤與讀螢幕使用者才不會
   // 停在一顆已經消失的按鈕上
   const first=document.querySelector('.mainnav a'); if(first) first.focus({preventScroll:true});
