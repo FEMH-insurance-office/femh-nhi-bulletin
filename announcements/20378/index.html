@@ -8,6 +8,11 @@
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../../assets/style.css">
+<script>
+// 在畫面繪製前就套上使用者選過的字級。放在 CSS 之後、body 之前是刻意的——
+// 等到 DOMContentLoaded 才套，使用者會先看到標準字級再「跳」一下。
+try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.dataset.fs = f; } catch (e) {}
+</script>
 </head>
 <body>
 <a class="skip" href="#main">跳至主要內容</a>
@@ -49,6 +54,13 @@
     </details>
 
     <a href="../../help/" >使用說明</a>
+
+    <div class="fsctl" role="group" aria-label="文字大小">
+      <b aria-hidden="true">字級</b>
+      <button type="button" class="s" data-fs="" aria-pressed="true">標準</button>
+      <button type="button" class="m" data-fs="l" aria-pressed="false">大</button>
+      <button type="button" class="l" data-fs="xl" aria-pressed="false">特大</button>
+    </div>
   </div>
 </nav>
 </div>
@@ -170,21 +182,57 @@
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-09-15 14:05</p>
+        產出時間：2026-09-15 17:51</p>
     </div>
   </div>
 </footer>
 
-<button id="top" type="button" aria-label="回到頂端">↑</button>
+<button id="top" type="button" aria-label="回到頂端"><span class="ar" aria-hidden="true">↑</span><span class="tx">回到頂端</span></button>
 <script>
 const topBtn=document.getElementById('top'), topbar=document.getElementById('topbar');
-addEventListener('scroll',()=>{
-  topBtn.classList.toggle('on',scrollY>400);
+
+function onScroll(){
+  topBtn.classList.toggle('on',scrollY>300);
   // 遲滯：收窄／展開用不同的門檻，否則在臨界點附近微捲會一直抖
   if(scrollY>90) topbar.classList.add('shrunk');
   else if(scrollY<40) topbar.classList.remove('shrunk');
-},{passive:true});
-topBtn.addEventListener('click',()=>scrollTo({top:0,behavior:'smooth'}));
+}
+addEventListener('scroll',onScroll,{passive:true});
+onScroll();
+
+topBtn.addEventListener('click',()=>{
+  const smooth=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+  scrollTo({top:0,behavior:smooth?'smooth':'auto'});
+  // 回到頂端後把焦點交還給頁面開頭，鍵盤與讀螢幕使用者才不會
+  // 停在一顆已經消失的按鈕上
+  const first=document.querySelector('.mainnav a'); if(first) first.focus({preventScroll:true});
+});
+
+// 黏著頁首的實際高度。字級放大或收窄狀態改變時都會變，
+// 錨點的 scroll-margin 與篩選側欄的 sticky 位置都靠它，不能寫死。
+(function(){
+  const setH=()=>document.documentElement.style.setProperty(
+    '--topbar-h', Math.round(topbar.getBoundingClientRect().height)+'px');
+  if(window.ResizeObserver) new ResizeObserver(setH).observe(topbar);
+  else addEventListener('resize',setH);
+  setH();
+})();
+
+// 字級
+(function(){
+  const box=document.querySelector('.fsctl'); if(!box) return;
+  const btns=[...box.querySelectorAll('button')];
+  const apply=(v)=>{
+    if(v) document.documentElement.dataset.fs=v;
+    else delete document.documentElement.dataset.fs;
+    btns.forEach(b=>b.setAttribute('aria-pressed', String((b.dataset.fs||'')===(v||''))));
+    try{ v ? localStorage.setItem('nhi:fs',v) : localStorage.removeItem('nhi:fs'); }catch(e){}
+  };
+  box.addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(b) apply(b.dataset.fs||'');
+  });
+  apply(document.documentElement.dataset.fs||'');   // 同步 <head> 那段已套用的值
+})();
 
 // Logo 動畫：使用者要求減少動態時停在第一格，不要一直閃
 // （頁首是黏著的，會整段時間都在視線裡）
