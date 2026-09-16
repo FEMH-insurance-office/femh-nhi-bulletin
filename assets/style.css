@@ -527,6 +527,84 @@ a.tag:hover { border-color: var(--c-border-strong); color: var(--c-dept-text); }
 }
 .notice { white-space: pre-line; line-height: 1.9; font-size: calc(17px * var(--fs)); margin-top: 14px; }
 
+/* 可收合區塊。用原生 <details>，沒有 JS 也能開合，
+   而且瀏覽器的頁內搜尋（Ctrl+F）在現代瀏覽器會自動展開命中的段落。 */
+
+.fold > summary {
+  cursor: pointer; list-style: none;
+  display: flex; align-items: center; gap: 8px;
+}
+.fold > summary::-webkit-details-marker { display: none; }
+.fold > summary::before {
+  content: "\25B8"; color: var(--c-text-muted);
+  transition: transform 140ms; flex: 0 0 auto;
+}
+.fold[open] > summary::before { transform: rotate(90deg); }
+
+/* 區塊型：summary 長得跟 h2 一樣 */
+.fold.sec > summary {
+  font-size: calc(21px * var(--fs)); font-weight: 600; line-height: 1.5;
+  margin: 34px 0 14px; padding-left: 12px;
+  border-left: 4px solid var(--c-link);
+}
+.fold.sec > summary:hover .h { color: var(--c-link); }
+
+/* 行內型：頁首的相關科別 */
+.fold.inline { margin-top: 10px; }
+.fold.inline > summary {
+  display: inline-flex; font-size: calc(16px * var(--fs));
+  color: var(--c-text-muted); padding: 5px 12px 5px 10px;
+  border: 1px solid var(--c-border); border-radius: var(--r);
+  background: var(--c-surface);
+}
+.fold.inline > summary:hover { background: var(--c-surface-raised); color: var(--c-text); }
+.fold.inline > summary i {
+  font-style: normal; font-weight: 600; color: var(--c-text);
+  background: var(--c-dept-bg); border-radius: var(--r-tag);
+  padding: 0 8px; font-size: calc(14px * var(--fs));
+}
+
+/* 科別快速跳轉／只看某一科 */
+.deptjump {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r); padding: 12px 14px; margin: 14px 0;
+}
+.deptjump > b {
+  display: block; font-size: calc(15px * var(--fs));
+  color: var(--c-text-muted); font-weight: 600; margin-bottom: 8px;
+}
+.jbtns { display: flex; flex-wrap: wrap; gap: 7px; }
+.jbtns button {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-family: inherit; font-size: calc(15px * var(--fs)); line-height: 1.5;
+  min-height: 36px; padding: 4px 12px; cursor: pointer; white-space: nowrap;
+  background: var(--c-bg); color: var(--c-text);
+  border: 1px solid var(--c-border); border-radius: var(--r);
+}
+.jbtns button:hover { background: var(--c-surface-raised); }
+.jbtns button i {
+  font-style: normal; font-size: calc(13px * var(--fs)); color: var(--c-text-muted);
+}
+.jbtns button[aria-pressed="true"] {
+  background: var(--c-link); border-color: var(--c-link); color: #fff; font-weight: 600;
+}
+.jbtns button[aria-pressed="true"] i { color: rgba(255,255,255,.8); }
+
+.focusbar, .focusmiss {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  background: var(--c-board-notice-bg); color: var(--c-board-notice-text);
+  border-radius: var(--r); padding: 11px 16px; margin: 12px 0;
+  font-size: calc(16px * var(--fs));
+}
+.focusmiss { background: var(--c-important-bg); color: var(--c-important-text); }
+.focusbar button {
+  font-family: inherit; font-size: calc(15px * var(--fs)); cursor: pointer;
+  padding: 5px 12px; border-radius: var(--r);
+  background: var(--c-surface); color: var(--c-text);
+  border: 1px solid var(--c-border-strong);
+}
+.focusbar button:hover { background: var(--c-surface-raised); }
+
 .impact, .info { margin: 0; }
 .impact > div, .info > div { display: flex; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--c-border); }
 .impact > div:last-child, .info > div:last-child { border-bottom: none; }
@@ -731,6 +809,8 @@ body.noscroll #top { display: none; }
     break-inside: avoid; page-break-inside: avoid;
   }
   .badge, .tag { border: 1px solid #666; background: #fff !important; color: #000 !important; }
+  /* 列印時收合的區塊要全部印出來——紙本沒辦法點開 */
+  .fold > summary::before { display: none; }
   table { min-width: 0; }
   th { background: #eee; }
   a { color: #000; text-decoration: underline; }

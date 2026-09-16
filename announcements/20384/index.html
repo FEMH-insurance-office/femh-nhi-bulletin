@@ -7,7 +7,7 @@
 <meta name="description" content="院內健保公告查詢與變更摘要平台。由醫療事務處保險課彙整衛生福利部中央健康保險署公告。">
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
-<link rel="stylesheet" href="../../assets/style.css?v=a8249a62">
+<link rel="stylesheet" href="../../assets/style.css?v=7494ade5">
 <script>
 // 在畫面繪製前就套上使用者選過的字級。放在 CSS 之後、body 之前是刻意的——
 // 等到 DOMContentLoaded 才套，使用者會先看到標準字級再「跳」一下。
@@ -80,12 +80,14 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
       <dd class="">
 <time datetime="2026-09-01">2026-09-01</time>      </dd></div>
 <div><dt>文號</dt><dd><code>健保醫字第1150117274號</code></dd></div>  </dl>
-  <div class="tags">
-    <span class="lead">相關科別</span>
-    <a class="tag" href="../../announcements/?department=%E4%BF%9D%E9%9A%AA%E8%AA%B2">保險課</a>
-    <a class="tag" href="../../announcements/?department=%E7%89%99%E7%A7%91%E9%83%A8">牙科部</a>
-    <a class="tag" href="../../announcements/?department=%E7%97%85%E6%AD%B7%E8%AA%B2">病歷課</a>
-  </div>
+  <details class="fold inline">
+    <summary>相關科別<i>3</i></summary>
+    <div class="tags">
+      <a class="tag" href="../../announcements/?department=%E4%BF%9D%E9%9A%AA%E8%AA%B2">保險課</a>
+      <a class="tag" href="../../announcements/?department=%E7%89%99%E7%A7%91%E9%83%A8">牙科部</a>
+      <a class="tag" href="../../announcements/?department=%E7%97%85%E6%AD%B7%E8%AA%B2">病歷課</a>
+    </div>
+  </details>
 </header>
 
 
@@ -96,8 +98,21 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
   <p class="note">由「修正對照表」PDF 與健保署支付標準 CSV 自動比對。
     點數與代碼皆從原文擷取，未經改寫。標示「詳原文」者無法可靠判讀，請點附件查閱。</p>
 
-  <h3>牙科部<span class="n">1 項</span></h3>
-  <div class="tw">
+  <div class="deptjump" id="deptjump">
+    <b>只看某一科</b>
+    <div class="jbtns">
+      <button type="button" data-dept="牙科部">牙科部<i>1</i></button>
+    </div>
+  </div>
+
+  <p class="focusbar" id="focusbar" hidden>
+    目前只顯示 <b id="focusname"></b> 的項目。
+    <button type="button" id="showall">顯示全部 1 科</button>
+  </p>
+  <p class="focusmiss" id="focusmiss" hidden></p>
+
+  <h3 class="dsec" id="d-d-1c0013" data-dept="牙科部">牙科部<span class="n">1 項</span></h3>
+  <div class="tw dsec-body" data-dept="牙科部">
     <table>
       <thead><tr>
         <th>代碼</th><th>診療項目</th><th>變更</th>
@@ -127,8 +142,8 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
   </dl>
 </section>
 
-<section class="sec">
-  <h2>公告資訊</h2>
+<details class="sec fold">
+  <summary><span class="h">公告資訊</span></summary>
   <dl class="info">
     <div><dt>公告日期</dt><dd>2026-08-24</dd></div>
     <div><dt>生效日期</dt><dd>2026-09-01</dd></div>
@@ -136,7 +151,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
     <div><dt>發布版面</dt><dd>法規公告</dd></div>
     <div><dt>公告來源</dt><dd>衛生福利部中央健康保險署</dd></div>
 <div class="wide"><dt>依據</dt><dd>衛生福利部115年8月18日衛部保字第1151260415號函</dd></div>  </dl>
-</section>
+</details>
 
 <section class="sec">
   <h2>原始公告與附件</h2>
@@ -212,7 +227,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-09-15 17:54</p>
+        產出時間：2026-09-16 09:49</p>
     </div>
   </div>
 </footer>
@@ -280,6 +295,17 @@ topBtn.addEventListener('click',()=>{
   // 從別的分頁切回來就會看到一個靜止的 Logo
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden) sync(); });
 })();
+// 列印前把收合的區塊全部打開，印完還原。
+// CSS 沒辦法強制展開 <details>，而紙本上讀者沒得點。
+(function(){
+  let opened=[];
+  addEventListener('beforeprint',()=>{
+    opened=[...document.querySelectorAll('details.fold:not([open])')];
+    opened.forEach(d=>d.open=true);
+  });
+  addEventListener('afterprint',()=>{ opened.forEach(d=>d.open=false); opened=[]; });
+})();
+
 // 主選單：點到選單外面就收起來，否則兩個下拉會同時開著蓋住內容
 document.addEventListener('click',e=>{
   document.querySelectorAll('nav .menu[open]').forEach(d=>{
@@ -294,6 +320,55 @@ try {
   const s = JSON.parse(sessionStorage.getItem('nhi:list') || 'null');
   if (s && s.url) document.getElementById('back').href = s.url;
 } catch (_) { /* 無痕模式讀不到就用預設的 /announcements/ */ }
+
+// ---- 只看某一科 ----
+// 一則支付標準修正常常橫跨二十幾科、三百多列。從科別清單點進來的人
+// 只想確認自己那一科改了什麼，卻要從頭捲到尾——這一段就是為了這件事。
+(function () {
+  const jump = document.getElementById('deptjump');
+  if (!jump) return;
+  const bar = document.getElementById('focusbar'),
+        name = document.getElementById('focusname'),
+        miss = document.getElementById('focusmiss'),
+        btns = [...jump.querySelectorAll('button')],
+        heads = [...document.querySelectorAll('.dsec')],
+        bodies = [...document.querySelectorAll('.dsec-body')],
+        known = new Set(btns.map(b => b.dataset.dept));
+
+  function apply(dept, push) {
+    const on = !!dept && known.has(dept);
+    heads.forEach(h => { h.hidden = on && h.dataset.dept !== dept; });
+    bodies.forEach(b => { b.hidden = on && b.dataset.dept !== dept; });
+    btns.forEach(b => b.setAttribute('aria-pressed', String(on && b.dataset.dept === dept)));
+    bar.hidden = !on;
+    if (on) name.textContent = dept;
+
+    // 帶了科別但這則沒有那一科的異動明細——多半是靠關鍵字標到的計畫類
+    // 公告。這時不能只是沒反應，要講清楚，不然使用者會以為頁面壞了。
+    const unknown = !!dept && !known.has(dept);
+    miss.hidden = !unknown;
+    if (unknown) miss.textContent = `本則沒有「${dept}」的點數異動明細，以下為完整內容。`;
+
+    // 網址跟著變，這樣「只看牙科部」的連結可以直接複製給人
+    const u = new URL(location.href);
+    if (dept) u.searchParams.set('department', dept);
+    else u.searchParams.delete('department');
+    history[push ? 'pushState' : 'replaceState'](null, '', u);
+  }
+
+  jump.addEventListener('click', e => {
+    const b = e.target.closest('button');
+    if (!b) return;
+    const already = b.getAttribute('aria-pressed') === 'true';
+    apply(already ? '' : b.dataset.dept, true);
+    if (!already) document.getElementById('deptjump').scrollIntoView({ block: 'start' });
+  });
+  document.getElementById('showall').addEventListener('click', () => apply('', true));
+  addEventListener('popstate', () =>
+    apply(new URL(location.href).searchParams.get('department') || '', false));
+
+  apply(new URL(location.href).searchParams.get('department') || '', false);
+})();
 </script>
 </body>
 </html>

@@ -155,27 +155,36 @@
 
   function deptTags(a) {
     // 規格 §3.7：3 個以內全列，超過顯示前 3 個 +N，避免多科公告撐高列表
-    const shown = a.depts.slice(0, 3).map(d =>
-      `<a class="tag" href="?department=${encodeURIComponent(d)}">${esc(d)}</a>`).join('');
+    const tag = (d) => `<a class="tag" href="${esc(a.id)}/?department=${encodeURIComponent(d)}"` +
+      ` title="看這則公告中「${esc(d)}」的異動">${esc(d)}</a>`;
+    const shown = a.depts.slice(0, 3).map(tag).join('');
     const extra = a.depts.length > 3
       ? `<button type="button" class="tag more" data-more="${esc(a.id)}" data-n="${a.depts.length - 3}" aria-expanded="false" aria-controls="rest-${esc(a.id)}">+${a.depts.length - 3}</button>` : '';
     const rest = a.depts.length > 3
       ? `<span class="tag-rest" hidden id="rest-${esc(a.id)}">` +
-        a.depts.slice(3).map(d =>
-          `<a class="tag" href="?department=${encodeURIComponent(d)}">${esc(d)}</a>`).join('') +
-        `</span>` : '';
+        a.depts.slice(3).map(tag).join('') + `</span>` : '';
     return `<div class="tags">${shown}${extra}${rest}</div>`;
+  }
+
+  // 進詳情頁時把目前篩的科別帶過去，詳情頁就會直接只顯示那一科的異動。
+  // 只有剛好篩一科時才帶——篩兩科以上「只看某一科」沒有唯一解，
+  // 硬挑一科帶過去反而會讓人以為另一科沒被影響。
+  function detailHref(a) {
+    const one = state.department.length === 1 ? state.department[0] : '';
+    return a.id + '/' + (one && a.depts.includes(one)
+      ? '?department=' + encodeURIComponent(one) : '');
   }
 
   function card(a) {
     const soon = a.eff_date && a.eff_date >= TODAY;
+    const href = esc(detailHref(a));
     return `<article class="card">
   <div class="metarow">
     <span class="badge t-${esc(a.type)}">${esc(a.type_name)}</span>
     ${a.pinned ? '<span class="badge b-pin">置頂</span>' : ''}
     ${a.eff_date ? `<span class="eff${soon ? ' soon' : ''}">生效 <time datetime="${esc(a.eff_date)}">${esc(a.eff_date)}</time></span>` : ''}
   </div>
-  <h3><a href="${esc(a.id)}/">${esc(a.title)}</a></h3>
+  <h3><a href="${href}">${esc(a.title)}</a></h3>
   ${a.summary ? `<p class="sum">${esc(a.summary)}</p>` : ''}
   ${a.depts.length ? deptTags(a) : ''}
   ${a.changes.length ? `<div class="tags ch">${a.changes.map(c =>
@@ -183,7 +192,7 @@
   <div class="metafoot">
     <span>公告日 <time datetime="${esc(a.ann_date)}">${esc(a.ann_date) || '—'}</time></span>
     ${a.doc_no ? `<code>${esc(a.doc_no)}</code>` : ''}
-    <a class="go" href="${esc(a.id)}/">查看公告 →</a>
+    <a class="go" href="${href}">查看公告 →</a>
   </div>
 </article>`;
   }
