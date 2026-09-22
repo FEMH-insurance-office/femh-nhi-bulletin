@@ -7,7 +7,7 @@
 <meta name="description" content="院內健保公告查詢與變更摘要平台。由醫療事務處保險課彙整衛生福利部中央健康保險署公告。">
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
-<link rel="stylesheet" href="../../assets/style.css?v=7494ade5">
+<link rel="stylesheet" href="../../assets/style.css?v=41bac6e7">
 <script>
 // 在畫面繪製前就套上使用者選過的字級。放在 CSS 之後、body 之前是刻意的——
 // 等到 DOMContentLoaded 才套，使用者會先看到標準字級再「跳」一下。
@@ -94,6 +94,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
 </section>
 
 
+
 <section class="sec">
   <h2>影響項目</h2>
   <dl class="impact">
@@ -164,8 +165,8 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
 </section>
 
 <nav class="prevnext" aria-label="公告導覽">
-  <a class="pn prev" href="../../announcements/20444/">
-    <span>← 上一則</span><b>健保數位轉型 打造醫療創新未來 健保署推動基層醫療院所雲端轉型,</b></a>
+  <a class="pn prev" href="../../announcements/20443/">
+    <span>← 上一則</span><b>公告「全民健康保險慢性腎衰竭病人門診透析服務品質保證保留款實施方</b></a>
   <a class="pn next" href="../../announcements/vpn9687c8ddc757/">
     <span>下一則 →</span><b>「“新港”呼吸器」之醫材安全警訊</b></a>
 </nav>
@@ -181,7 +182,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-09-21 10:59</p>
+        產出時間：2026-09-22 11:00</p>
     </div>
   </div>
 </footer>
@@ -323,6 +324,22 @@ try {
 
   apply(new URL(location.href).searchParams.get('department') || '', false);
 })();
+// 支付標準規範備註：收合列。預設收起，因為多數人只要看點數改了多少；
+// 要照著申報的人才會點開。
+document.querySelectorAll('.regtoggle').forEach(function (b) {
+  b.addEventListener('click', function () {
+    // 用「自己這一列的下一列」而不是 getElementById。
+    // 一個代碼可以同時屬於好幾科(231 個裡有 77 個是),表格又是按科分組,
+    // 所以同一個代碼會出現好幾次。第一版用共用的 id,getElementById 永遠
+    // 只回第一個——點第二科的按鈕,展開的是第一科那一列,而那一列常常
+    // 還被「只看某一科」藏著,看起來就是按了沒反應。
+    var row = b.closest('tr').nextElementSibling;
+    if (!row || !row.classList.contains('noterow')) return;
+    var open = row.hasAttribute('hidden');
+    if (open) { row.removeAttribute('hidden'); } else { row.setAttribute('hidden', ''); }
+    b.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+});
 </script>
 </body>
 </html>

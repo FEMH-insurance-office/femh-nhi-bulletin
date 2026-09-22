@@ -816,3 +816,29 @@ body.noscroll #top { display: none; }
   a { color: #000; text-decoration: underline; }
   .files a[href]::after { content: "（" attr(href) "）"; font-size: 9pt; color: #444; }
 }
+
+/* 人工匯入的公告沒有健保署原文可連，要講清楚為什麼 */
+.note-import{background:var(--c-important-bg);border-radius:8px;padding:10px 14px;
+  margin:0 0 10px;font-size:calc(15px * var(--fs));color:var(--c-text)}
+
+/* ── 適用之給付規定（規範庫整合） ── */
+.reg .note{margin:0 0 12px}
+.regitem{border:1px solid var(--c-border);border-radius:8px;margin:0 0 8px;background:var(--c-surface)}
+.regitem>summary{cursor:pointer;padding:11px 14px;display:flex;flex-wrap:wrap;gap:10px;
+  align-items:baseline;font-size:calc(16px * var(--fs))}
+.regitem>summary::-webkit-details-marker{display:none}
+.regitem>summary:hover{background:var(--c-surface-raised)}
+.sec-no{font-weight:700;background:var(--c-important-bg);border-radius:5px;padding:1px 8px}
+.regitem .ch{font-weight:700}
+.regitem em,.regitem .len{font-style:normal;color:var(--c-text-muted);font-size:calc(14px * var(--fs))}
+.clause{margin:0;padding:14px;border-top:1px solid var(--c-border);white-space:pre-wrap;
+  font-family:inherit;font-size:calc(15px * var(--fs));line-height:1.75;max-height:26em;overflow:auto}
+.regitem[open]>summary{border-bottom:1px solid var(--c-border)}
+
+/* 支付標準規範備註（收合列） */
+.regtoggle{margin-left:8px;font-size:calc(13px * var(--fs));padding:1px 8px;border-radius:5px;
+  border:1px solid var(--c-border-strong);background:var(--c-bg);cursor:pointer;color:var(--c-text)}
+.regtoggle[aria-expanded=true]{background:var(--c-link);color:#FBFAF8;border-color:var(--c-link)}
+.noterow td{background:var(--c-bg);font-size:calc(14px * var(--fs));line-height:1.8}
+.noterow b{display:block;margin-bottom:3px;color:var(--c-text-muted);font-size:calc(13px * var(--fs))}
+@media print{.regitem{break-inside:avoid}.noterow[hidden]{display:table-row!important}}

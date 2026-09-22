@@ -7,7 +7,7 @@
 <meta name="description" content="院內健保公告查詢與變更摘要平台。由醫療事務處保險課彙整衛生福利部中央健康保險署公告。">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-<link rel="stylesheet" href="../assets/style.css?v=7494ade5">
+<link rel="stylesheet" href="../assets/style.css?v=41bac6e7">
 <script>
 // 在畫面繪製前就套上使用者選過的字級。放在 CSS 之後、body 之前是刻意的——
 // 等到 DOMContentLoaded 才套，使用者會先看到標準字級再「跳」一下。
@@ -44,6 +44,8 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
         <div class="menugrp">
           <b>內科系</b>
           <a href="../announcements/?department=%E7%A5%9E%E7%B6%93%E9%86%AB%E5%AD%B8%E9%83%A8">神經醫學部<i>1</i></a>
+          <a href="../announcements/?department=%E8%85%8E%E8%87%9F%E5%85%A7%E7%A7%91">腎臟內科<i>1</i></a>
+          <a href="../announcements/?department=%E8%A1%80%E6%B6%B2%E9%80%8F%E6%9E%90%E5%AE%A4">血液透析室<i>1</i></a>
         </div>
         <div class="menugrp">
           <b>兒科部</b>
@@ -72,6 +74,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
           <a href="../announcements/?type=payment-standard">支付標準<i>1</i></a>
           <a href="../announcements/?type=drug">藥品給付<i>10</i></a>
           <a href="../announcements/?type=material">特殊材料<i>1</i></a>
+          <a href="../announcements/?type=quality">品質方案<i>1</i></a>
           <a href="../announcements/?type=other">其他<i>1</i></a>
         </div>
       </div>
@@ -122,6 +125,10 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
           <b>內科系</b>
           <label data-dept><input type="checkbox" name="department" value="神經醫學部">
             <span>神經醫學部</span><i>1</i></label>
+          <label data-dept><input type="checkbox" name="department" value="腎臟內科">
+            <span>腎臟內科</span><i>1</i></label>
+          <label data-dept><input type="checkbox" name="department" value="血液透析室">
+            <span>血液透析室</span><i>1</i></label>
         </div>
         <div class="fgrp" data-grp>
           <b>兒科部</b>
@@ -175,6 +182,8 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
           <span>藥品給付</span><i>10</i></label>
         <label><input type="checkbox" name="type" value="material">
           <span>特殊材料</span><i>1</i></label>
+        <label><input type="checkbox" name="type" value="quality">
+          <span>品質方案</span><i>1</i></label>
         <label><input type="checkbox" name="type" value="other">
           <span>其他</span><i>1</i></label>
       </div>
@@ -190,7 +199,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
 
     <div class="factions">
       <button type="button" id="clearall" class="plain">清除全部</button>
-      <button type="button" id="applymobile" class="go">顯示 <span id="mobilecount">13</span> 筆</button>
+      <button type="button" id="applymobile" class="go">顯示 <span id="mobilecount">14</span> 筆</button>
     </div>
   </aside>
 
@@ -198,7 +207,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
     <div class="chips" id="chips" hidden></div>
 
     <div class="toolbar">
-      <p class="count">共 <b id="count">13</b> 則公告</p>
+      <p class="count">共 <b id="count">14</b> 則公告</p>
       <div class="tools">
         <label>排序
           <select id="sort">
@@ -234,7 +243,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-09-21 10:59</p>
+        產出時間：2026-09-22 11:00</p>
     </div>
   </div>
 </footer>
