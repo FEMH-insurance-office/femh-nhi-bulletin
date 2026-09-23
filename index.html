@@ -7,7 +7,7 @@
 <meta name="description" content="院內健保公告查詢與變更摘要平台。由醫療事務處保險課彙整衛生福利部中央健康保險署公告。">
 <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<link rel="stylesheet" href="assets/style.css?v=41bac6e7">
+<link rel="stylesheet" href="assets/style.css?v=e471edab">
 <script>
 // 在畫面繪製前就套上使用者選過的字級。放在 CSS 之後、body 之前是刻意的——
 // 等到 DOMContentLoaded 才套，使用者會先看到標準字級再「跳」一下。
@@ -61,6 +61,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
           <a href="announcements/?department=%E4%BF%9D%E9%9A%AA%E8%AA%B2">保險課<i>2</i></a>
           <a href="announcements/?department=%E6%95%B8%E4%BD%8D%E7%99%BC%E5%B1%95%E9%83%A8">數位發展部<i>1</i></a>
           <a href="announcements/?department=%E7%97%85%E6%AD%B7%E8%AA%B2">病歷課<i>1</i></a>
+          <a href="announcements/?department=%E8%B3%87%E6%9D%90%E8%99%95">資材處<i>1</i></a>
           <a href="announcements/?department=%E9%96%80%E8%A8%BA%E8%AA%B2">門診課<i>1</i></a>
         </div>
         <a class="menuall" href="announcements/">全部科別 →</a>
@@ -73,13 +74,14 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
         <div class="menugrp">
           <a href="announcements/?type=payment-standard">支付標準<i>1</i></a>
           <a href="announcements/?type=drug">藥品給付<i>10</i></a>
-          <a href="announcements/?type=material">特殊材料<i>1</i></a>
+          <a href="announcements/?type=material">特殊材料<i>2</i></a>
           <a href="announcements/?type=quality">品質方案<i>1</i></a>
           <a href="announcements/?type=other">其他<i>1</i></a>
         </div>
       </div>
     </details>
 
+    <a href="standard/" >支付標準</a>
     <a href="help/" >使用說明</a>
 
     <div class="fsctl" role="group" aria-label="文字大小">
@@ -111,9 +113,9 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
 </section>
 
 <div class="stats">
-  <a class="stat" href="announcements/"><b>14</b><span>公告總數</span></a>
+  <a class="stat" href="announcements/"><b>15</b><span>公告總數</span></a>
   <a class="stat" href="announcements/?effective=upcoming"><b>0</b><span>即將生效</span></a>
-  <div class="stat"><b>10</b><span>涉及科部</span></div>
+  <div class="stat"><b>11</b><span>涉及科部</span></div>
   <div class="stat"><b>167</b><span>點數異動項目</span></div>
 </div>
 
@@ -148,6 +150,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
         <a class="pill" href="announcements/?department=%E4%BF%9D%E9%9A%AA%E8%AA%B2">保險課<i>2</i></a>
         <a class="pill" href="announcements/?department=%E6%95%B8%E4%BD%8D%E7%99%BC%E5%B1%95%E9%83%A8">數位發展部<i>1</i></a>
         <a class="pill" href="announcements/?department=%E7%97%85%E6%AD%B7%E8%AA%B2">病歷課<i>1</i></a>
+        <a class="pill" href="announcements/?department=%E8%B3%87%E6%9D%90%E8%99%95">資材處<i>1</i></a>
         <a class="pill" href="announcements/?department=%E9%96%80%E8%A8%BA%E8%AA%B2">門診課<i>1</i></a>
       </div>
     </div>
@@ -162,6 +165,14 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
 
   <section>
     <h2>最新公告<a class="more" href="announcements/?sort=announcement-date">查看全部 →</a></h2>
+<article class="mini">
+  <div class="metarow">
+    <span class="badge t-material">特殊材料</span>
+  </div>
+  <h3><a href="announcements/vpn55959fa7d2bd/">「&#34;美敦力&#34;布拉芙酸鹼值監控系統(未滅菌)(衛部醫器輸壹登字第017983號」之醫材安全警訊</a></h3>
+<p class="sum">醫療器材回收訊息&#34;美敦力&#34;布拉芙酸鹼值監控系統(未滅菌) &#34;Medtronic&#34; Bravo pH Monitoring System (Non-Sterile)回收分級第二級回收。因受影響產品之控制膠囊釋放的組件存在潛在異常，導致膠囊無法順利釋放或附著，故啟動回收作業。</p>  <div class="tags">
+<span class="tag">資材處</span>  </div>
+</article>
 <article class="mini">
   <div class="metarow">
     <span class="badge t-other">其他</span>
@@ -196,14 +207,6 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
 經查,國內受影響設備共4台,美敦力醫療產品股份有限公司已於115年8月11日開始通知受影響客戶停止使用受影響設備並予移除,前述矯正措施預計於115年10月前完成。</p>  <div class="tags">
 <span class="tag">保險課</span>  </div>
 </article>
-<article class="mini">
-  <div class="metarow">
-    <span class="badge t-drug">藥品給付</span>
-  </div>
-  <h3><a href="announcements/vpn5461e2fcad4a/">衛生福利部食品藥物管理署公告115年8月28日至115年9月10日共3項藥品供應不足及其替代藥品,另4項藥品恢復供應。</a></h3>
-<p class="sum">115年8月28日至115年9月10日於西藥供應資訊平台(http://dsms.fda.gov.tw)公告「普力馬林陰道乳膏(衛署藥輸字第019489號)」等3項藥品供應狀態,另「艾筆腎上腺素注射筆0.3毫克/次(衛署藥輸字第025223號)」等4項藥品恢復供應訊息。</p>  <div class="tags">
-<span class="tag">藥學部</span>  </div>
-</article>
   </section>
 </div>
 
@@ -212,7 +215,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
   <div class="pills">
     <a class="pill big" href="announcements/?type=payment-standard">支付標準<i>1</i></a>
     <a class="pill big" href="announcements/?type=drug">藥品給付<i>10</i></a>
-    <a class="pill big" href="announcements/?type=material">特殊材料<i>1</i></a>
+    <a class="pill big" href="announcements/?type=material">特殊材料<i>2</i></a>
     <a class="pill big" href="announcements/?type=quality">品質方案<i>1</i></a>
     <a class="pill big" href="announcements/?type=other">其他<i>1</i></a>
   </div>
@@ -229,7 +232,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-09-22 11:00</p>
+        產出時間：2026-09-23 12:43</p>
     </div>
   </div>
 </footer>
