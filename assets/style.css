@@ -769,6 +769,20 @@ body.noscroll #top { display: none; }
   .hero .home { font-size: calc(20px * var(--fs)); }
   .hero .sub { display: none; }
   .mainnav .wrap { overflow-x: auto; flex-wrap: nowrap; }
+
+  /* 下拉面板在手機改用 fixed。桌機是 absolute 掛在 .menu 上，但手機的
+     .mainnav .wrap 有 overflow-x:auto——**絕對定位的子元素會被捲動容器
+     連同垂直方向一起裁掉**，於是選單打開了卻什麼都看不到。
+     實測面板確實算出 345×568 的版面、只是整塊被裁走，所以從畫面上
+     看起來像「點了沒反應」，很難聯想到是 overflow 造成的。
+     fixed 脫離那個裁切脈絡，並改成貼齊左右邊緣，不會再跑出畫面外。 */
+  .menupanel {
+    position: fixed;
+    top: var(--topbar-h, 108px);
+    left: 8px; right: 8px; width: auto;
+    max-height: calc(100vh - var(--topbar-h, 108px) - 16px);
+  }
+  .menupanel.narrow { width: auto; }
   .mainnav a, .mainnav summary { white-space: nowrap; padding: 11px 13px; font-size: calc(16px * var(--fs)); }
   .filters { top: 0; }
   h1 { font-size: calc(23px * var(--fs)); }
@@ -860,7 +874,7 @@ body.noscroll #top { display: none; }
   cursor:pointer;padding:0}
 .codebtn:hover{background:var(--c-surface-raised)}
 .hasnote{font-style:normal;font-size:calc(12px * var(--fs));background:var(--c-important-bg);
-  color:#8a5a00;border-radius:4px;padding:0 6px;vertical-align:1px}
+  color:var(--c-important-text);border-radius:4px;padding:0 6px;vertical-align:1px}
 .stdmore{text-align:center;margin:16px 0}
 .stdmore button{padding:9px 22px;border-radius:8px;border:1px solid var(--c-border-strong);
   background:var(--c-surface);color:var(--c-text);cursor:pointer;font-size:calc(15px * var(--fs))}
@@ -886,3 +900,61 @@ body.noscroll #top { display: none; }
   border-bottom:1px dashed var(--c-link);color:var(--c-link);display:inline-block;margin:1px 0}
 .codelink:hover{background:var(--c-surface-raised)}
 .codes .codelink{margin:2px 3px 2px 0}
+
+/* ---------- 給付規則查詢：另一組色 ----------
+   跟公告區用同一個藍灰色會讓人分不出「我現在在查什麼」——兩邊的內容
+   性質差很多：公告是「發生了什麼事」，給付規則是「現在的規定是什麼」。
+   換成莫蘭迪鼠尾草綠，同一個色系家族、但一眼分得出來。
+
+   只覆蓋 token、不另外寫元件樣式：搜尋按鈕、代碼連結、聚焦外框、
+   「規範」標籤都是吃這幾個變數，換掉就整頁跟著走。
+
+   對比都量過（WCAG AA 要 4.5:1）：
+     淺色  #47624F 於卡片 6.44:1、於頁面 5.86:1（現用連結色是 6.12 / 5.57）
+     深色  #9DBBA6 於卡片 6.88:1、於頁面 7.72:1
+     標籤  #354C3C 於 #E3EAE3 7.62:1 ／ #C4D6C5 於 #2C3A2D 7.87:1 */
+.t-standard {
+  --c-link:           #47624F;
+  --c-link-hover:     #354C3C;
+  --c-focus:          #3E5A46;
+  --c-important-text: #354C3C;
+  --c-important-bg:   #E3EAE3;
+  --c-std-panel:      #EDF2ED;   /* 內文 12.41:1、次要字 5.66:1 */
+  --c-std-panel-bd:   #CDDBD0;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .t-standard {
+    --c-link:           #9DBBA6;
+    --c-link-hover:     #BFD6C6;
+    --c-focus:          #A8C2AE;
+    --c-important-text: #C4D6C5;
+    --c-important-bg:   #2C3A2D;
+    --c-std-panel:      #28302A;   /* 內文 11.23:1、次要字 5.83:1 */
+    --c-std-panel-bd:   #3C4A3F;
+  }
+}
+
+/* 首頁上半是給付規則、下半是公告——兩件不同的事擠在同一頁，不畫界線
+   會被當成同一區。上半部框起來並套綠色 token，中間放一條帶標籤的
+   分隔線，讓「這裡以下是公告」講得明白。 */
+.panel-std {
+  background: var(--c-std-panel);
+  border: 1px solid var(--c-std-panel-bd);
+  border-radius: 12px;
+  padding: 20px 24px 22px;
+  margin: 0 0 26px;
+}
+.panel-std h1 { margin-top: 0; }
+.panel-std .hint { margin-bottom: 0; }
+
+.secsplit {
+  display: flex; align-items: center; gap: 14px;
+  margin: 0 0 22px; color: var(--c-text-muted);
+  font-size: calc(15px * var(--fs));
+}
+.secsplit::before, .secsplit::after {
+  content: ""; flex: 1; height: 1px; background: var(--c-border);
+}
+@media (max-width: 900px) {
+  .panel-std { padding: 16px; border-radius: 10px; }
+}

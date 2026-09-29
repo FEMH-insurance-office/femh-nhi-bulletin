@@ -22,14 +22,14 @@
 <meta name="twitter:image" content="https://femh-insurance-office.github.io/femh-nhi-bulletin/assets/og-cover.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
-<link rel="stylesheet" href="../../assets/style.css?v=e471edab">
+<link rel="stylesheet" href="../../assets/style.css?v=0e260c80">
 <script>
 // 在畫面繪製前就套上使用者選過的字級。放在 CSS 之後、body 之前是刻意的——
 // 等到 DOMContentLoaded 才套，使用者會先看到標準字級再「跳」一下。
 try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.dataset.fs = f; } catch (e) {}
 </script>
 </head>
-<body>
+<body class="">
 <a class="skip" href="#main">跳至主要內容</a>
 
 <div class="topbar" id="topbar">
@@ -51,6 +51,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
 <nav class="mainnav" aria-label="主選單">
   <div class="wrap">
     <a href="../../index.html" >首頁</a>
+    <a href="../../standard/" >給付規則查詢</a>
     <a href="../../announcements/" aria-current=page>公告查詢</a>
 
     <details class="menu">
@@ -68,7 +69,6 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
       </div>
     </details>
 
-    <a href="../../standard/" >給付規則查詢</a>
     <a href="../../help/" >使用說明</a>
 
     <div class="fsctl" role="group" aria-label="文字大小">
@@ -186,7 +186,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-09-29 10:53</p>
+        產出時間：2026-09-29 18:41</p>
     </div>
   </div>
 </footer>
@@ -241,6 +241,22 @@ topBtn.addEventListener('click',()=>{
     const b=e.target.closest('button'); if(b) apply(b.dataset.fs||'');
   });
   apply(document.documentElement.dataset.fs||'');   // 同步 <head> 那段已套用的值
+})();
+
+// 下拉選單：點外面或按 Esc 就關。
+// 手機上尤其必要——主選單是橫向捲動的，面板一打開就佔滿畫面，
+// 而「依科別查詢」那顆 summary 早就被捲出視野，沒辦法再點一次關掉。
+(function(){
+  const menus = [...document.querySelectorAll('.mainnav details.menu')];
+  if (!menus.length) return;
+  const closeOthers = (keep) => menus.forEach(m => { if (m !== keep) m.open = false; });
+  menus.forEach(m => m.addEventListener('toggle', () => { if (m.open) closeOthers(m); }));
+  document.addEventListener('click', e => {
+    menus.forEach(m => { if (m.open && !m.contains(e.target)) m.open = false; });
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') menus.forEach(m => m.open = false);
+  });
 })();
 
 // Logo 動畫：使用者要求減少動態時停在第一格，不要一直閃
