@@ -81,10 +81,16 @@
     for (var i = shown; i < end; i++) {
       var r = view[i];
       var tr = document.createElement('tr');
+      // 代碼跟名稱都是同一個項目的入口。只有代碼可點的話，
+      // 看著名稱在找的人會以為那一列沒東西可看——名稱本來就比代碼好認。
+      var name = r[1]
+        ? '<button type="button" class="namebtn" data-code="' + esc(r[0]) + '">' +
+            esc(r[1]) + '</button>'
+        : '—';                         // 沒名稱的不做成按鈕，點一個「—」很怪
       tr.innerHTML =
         '<td><button type="button" class="codebtn" data-code="' + esc(r[0]) + '">' +
           esc(r[0]) + '</button></td>' +
-        '<td>' + esc(r[1] || '—') +
+        '<td>' + name +
           (r[4] ? ' <em class="hasnote">規範</em>' : '') + '</td>' +
         '<td class="n">' + num(r[2]) + '</td>' +
         '<td>' + esc(r[3] || '—') + '</td>';
@@ -111,7 +117,7 @@
   function showCode(code) {
     var row = find(code);
     if (!row) {
-      detail.innerHTML = '<div class="stdcard"><p class="empty">查無代碼 ' + esc(code) +
+      detail.innerHTML = '<div class="stdcard"><p class="empty">查無健保代碼 ' + esc(code) +
         '。它可能已經停用，或不屬於診療項目——藥品與特材不在本頁範圍。</p>' +
         '<button type="button" class="back" id="sback">← 回到清單</button></div>';
       detail.hidden = false;
@@ -208,7 +214,7 @@
   more.addEventListener('click', draw);
 
   document.addEventListener('click', function (e) {
-    var b = e.target.closest ? e.target.closest('.codebtn') : null;
+    var b = e.target.closest ? e.target.closest('[data-code]') : null;
     if (!b) { return; }
     var p = params();
     p.set('code', b.dataset.code);

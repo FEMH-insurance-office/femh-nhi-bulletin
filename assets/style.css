@@ -869,10 +869,18 @@ body.noscroll #top { display: none; }
 .stdcount{color:var(--c-text-muted);font-size:calc(15px * var(--fs));margin:8px 0}
 .stdtable{width:100%}
 .stdtable td,.stdtable th{vertical-align:top}
-.codebtn{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:calc(15px * var(--fs));
-  background:none;border:none;border-bottom:1px dashed var(--c-link);color:var(--c-link);
-  cursor:pointer;padding:0}
-.codebtn:hover{background:var(--c-surface-raised)}
+/* 表格裡每一列的前兩欄都可點，整片染成連結色會讓 6,000 列讀起來很吵，
+   也讓人以為那是外連。改用一般內文色，虛線底線負責表示「點得開」，
+   滑過去才上連結色。 */
+.codebtn,.namebtn{background:none;border:none;
+  border-bottom:1px dashed var(--c-border-strong);
+  color:var(--c-text);cursor:pointer;padding:0;font-size:calc(15px * var(--fs))}
+.codebtn{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+/* 名稱最長 40 幾個字，按鈕預設置中又不換行，窄螢幕會把整欄撐爆 */
+.namebtn{font-family:inherit;text-align:left;line-height:inherit}
+.codebtn:hover,.namebtn:hover{background:var(--c-surface-raised);
+  color:var(--c-link);border-bottom-color:var(--c-link)}
+.codebtn:focus-visible,.namebtn:focus-visible{color:var(--c-link)}
 .hasnote{font-style:normal;font-size:calc(12px * var(--fs));background:var(--c-important-bg);
   color:var(--c-important-text);border-radius:4px;padding:0 6px;vertical-align:1px}
 .stdmore{text-align:center;margin:16px 0}
@@ -942,7 +950,8 @@ body.noscroll #top { display: none; }
   border: 1px solid var(--c-std-panel-bd);
   border-radius: 12px;
   padding: 20px 24px 22px;
-  margin: 0 0 26px;
+  /* 上方要留白：緊貼選單列的話，綠框看起來像是選單的一部分 */
+  margin: 22px 0 26px;
 }
 .panel-std h1 { margin-top: 0; }
 .panel-std .hint { margin-bottom: 0; }
