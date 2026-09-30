@@ -903,6 +903,50 @@ body.noscroll #top { display: none; }
 .stdhist .when{color:var(--c-text-muted);margin-right:6px}
 .stdrefs{margin:0;padding-left:18px;font-size:calc(15px * var(--fs));line-height:1.9}
 @media (max-width:640px){.stdmeta{gap:18px}}
+
+/* ---- 藥品給付規定 ---- */
+
+/* 資料範圍是篩選不是導覽，所以做成一排 radio 而不是頁籤——
+   頁籤會讓人以為切走就看不到另一邊，而預設就是兩邊都給。 */
+.stdhint{margin:2px 0 0;color:var(--c-text-muted);font-size:calc(14px * var(--fs));
+  line-height:1.7}
+.stdkind{display:flex;flex-wrap:wrap;gap:16px;align-items:center;
+  margin:14px 0 2px;font-size:calc(15px * var(--fs))}
+.stdkind label{display:inline-flex;align-items:center;gap:6px}
+.grouph{display:flex;align-items:baseline;gap:10px;
+  margin:26px 0 8px;font-size:calc(18px * var(--fs));
+  padding-bottom:6px;border-bottom:1px solid var(--c-border)}
+.grouph .n{font-size:calc(14px * var(--fs));font-weight:400;color:var(--c-text-muted)}
+#gdrug:first-of-type .grouph,#gstd:first-of-type .grouph{margin-top:16px}
+/* 章節欄是輔助資訊，不該跟藥名搶注意力 */
+.drugtable .chcell{color:var(--c-text-muted);font-size:calc(14px * var(--fs));
+  white-space:nowrap}
+/* 給付規定條文比支付標準的註記長得多（最長一條 11,900 字），
+   限高並可捲，不然一條就把整頁撐掉。 */
+.stdnote.reg{max-height:60vh;overflow-y:auto}
+.stddates{display:flex;flex-wrap:wrap;gap:6px;margin:0;
+  font-size:calc(14px * var(--fs))}
+.stddates .d{background:var(--c-surface-raised);border-radius:999px;padding:2px 10px}
+.stddates .d.last{background:var(--c-important-bg);color:var(--c-important-text);
+  font-weight:600}
+.stdsrc{margin:20px 0 0;padding-top:12px;border-top:1px solid var(--c-border);
+  color:var(--c-text-muted);font-size:calc(14px * var(--fs));line-height:1.8}
+/* 藥品成分名最長 90 幾個字，四欄在手機上一定要橫捲才看得完。
+   章節是輔助資訊（點進去還看得到），收起來讓「節次＋成分名」留在畫面內——
+   要橫捲才讀得到藥名的話，這張表在手機上等於不能用。 */
+@media (max-width:900px){
+  .drugtable th:nth-child(3),.drugtable td:nth-child(3){display:none}
+  /* 全站 table 有 min-width:640px（點數異動表需要），藏了欄位也還是會橫捲。
+     這張表剩兩欄加一個日期，375px 放得下，解除它。 */
+  .drugtable{min-width:0}
+  .drugtable th:nth-child(4){white-space:normal}
+}
+/* 手機直式再窄 49px 就是放不下:節次「8.2.4.6.1」等寬字不能折要 99px，
+   日期欄連含 padding 要 79px，剩給藥名的不夠它的最小寬度。
+   修訂日期在詳細頁看得到，藥名看不全則整張表沒有意義——所以捨日期。 */
+@media (max-width:640px){
+  .drugtable th:nth-child(4),.drugtable td:nth-child(4){display:none}
+}
 .codelink{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-decoration:none;
   background:var(--c-bg);border-radius:5px;padding:1px 7px;
   border-bottom:1px dashed var(--c-link);color:var(--c-link);display:inline-block;margin:1px 0}
