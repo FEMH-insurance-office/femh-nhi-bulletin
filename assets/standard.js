@@ -289,6 +289,13 @@
     });
   }
 
+  // 健保署只在「該章改過版」時才在連結標題標更新日。解毒劑、耳鼻喉科製劑
+  // 很久沒動過，標題沒有日期，檔名也就沒有。留白會看起來像抽漏了，要講明白。
+  function chVer(ch) {
+    if (ch.version) { return ch.version + ' 版'; }
+    return ch.undated ? '健保署未標示更新日期' : '版本不明';
+  }
+
   function showSec(sec) {
     var row = drug && dfind(sec);
     if (!row) {
@@ -304,7 +311,7 @@
       var h = '<h2><code>' + esc(sec) + '</code> ' + esc(row[2]) + '</h2>' +
         '<dl class="stdmeta">' +
           '<div><dt>所屬章節</dt><dd>第' + esc(row[1]) + '節 ' + esc(ch.title || '') + '</dd></div>' +
-          '<div><dt>條文版本</dt><dd>' + esc(ch.version || '—') + '</dd></div>' +
+          '<div><dt>條文版本</dt><dd>' + esc(chVer(ch)) + '</dd></div>' +
         '</dl>';
 
       // 修訂日一整串是這份資料獨有的——支付標準只有單一生效日。
@@ -326,7 +333,7 @@
 
       h += '<p class="stdsrc">原文出自健保署「藥品給付規定」' +
            (ch.partial ? '完整版' : '第' + esc(row[1]) + '節分章節檔') +
-           '（' + esc(ch.version || '') + ' 版），原封轉載未經改寫。' +
+           '，' + esc(chVer(ch)) + '。原封轉載未經改寫，' +
            '申報請以健保署最新公告為準。</p>';
       showDetail(h);
     });
