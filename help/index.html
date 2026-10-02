@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://femh-insurance-office.github.io/femh-nhi-bulletin/assets/og-cover.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-<link rel="stylesheet" href="../assets/style.css?v=f106e6a2">
+<link rel="stylesheet" href="../assets/style.css?v=7163e0ec">
 <script>
 // 在畫面繪製前就套上使用者選過的字級。放在 CSS 之後、body 之前是刻意的——
 // 等到 DOMContentLoaded 才套，使用者會先看到標準字級再「跳」一下。
@@ -187,6 +187,23 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
       <b>開始留存之前的異動不在其中</b>。</li>
     <li>公告頁面裡的診療項目代碼都可以直接點，會跳到給付規則查詢的對應項目。</li>
   </ul>
+
+  <h3>特殊材料</h3>
+  <ul>
+    <li>可以用<b>特材代碼、中文或英文品名</b>查，英文品名（例如 STENT、IVUS）也比對得到。
+      點進去可看支付點數、是否需事前審查、規格與許可證，以及它適用的<b>特材給付規定原文</b>。</li>
+    <li>查詢也會比對給付規定的條文內容。只因為條文提到而列出的品項，會在品名下方標
+      「<b>條文提及</b>」並露出那一句——例如查 <code>19007C</code> 列出的關節內注射劑，
+      條文寫的是「<b>不得</b>同時併報超音波導引(19007C)」。
+      <b>請讀那一句再判斷</b>，被列出來不代表要搭配申報。</li>
+    <li>點開<b>診療項目</b>時，下方「<b>提到此代碼的特材條文</b>」會列出特材給付規定中寫到這個代碼的句子，
+      以原文呈現、代碼標粗。同樣只露句子、不判讀：同一區裡可能有「限」用於、「得」另報、
+      「不得」併報好幾種寫法，請逐句看。句子若是條列中的一項，會連同上層標題（例如「一、限：」）一起顯示。</li>
+    <li>健保署已公告、但還沒生效的新點數會一併標出（例：「117/06/01 起 0」）。</li>
+    <li>「只看需事前審查的特材」「只看自付差額特材」只適用於特材區，勾選時其他區會暫時不列。</li>
+    <li>給付規定條文取自健保署的<b>試算表版</b>，不是 PDF 版：同一份規定的 PDF 版抽出文字時，
+      有些條文會掉字（包含支付標準代碼），試算表版沒有這個問題。</li>
+  </ul>
   <p class="warn">給付規則查詢的資料是健保署開放資料的<b>每日快照</b>，
     <b>不是申報依據</b>。點數、生效日、加成條件與申報限制一律以健保署
     最新公告之支付標準為準。</p>
@@ -224,7 +241,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-10-02 11:44</p>
+        產出時間：2026-10-02 16:53</p>
     </div>
   </div>
 </footer>

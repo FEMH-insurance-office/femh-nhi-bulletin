@@ -947,6 +947,57 @@ body.noscroll #top { display: none; }
 @media (max-width:640px){
   .drugtable th:nth-child(4),.drugtable td:nth-child(4){display:none}
 }
+
+/* ---- 特材 ---- */
+
+/* 英文品名是查特材時很常用的線索（IVUS、STENT），但比中文長得多，
+   放第二行、字小一號，不跟中文品名搶。 */
+.tzen{color:var(--c-text-muted);font-size:calc(13px * var(--fs));line-height:1.5;margin-top:2px}
+.tzen.big{font-size:calc(15px * var(--fs));margin:-8px 0 14px}
+/* 條文命中的那一句。一定要露出來：查 19007C 帶出來的特材，條文寫的全是
+   「不得同時併報」，只顯示「命中條文」會被讀成「要搭配這些特材」。 */
+.tzsnip{margin-top:4px;font-size:calc(13px * var(--fs));line-height:1.6;color:var(--c-text-muted)}
+.tzsnip b{color:var(--c-text);background:var(--c-important-bg);border-radius:3px;padding:0 2px}
+.tzsnip .lbl{display:inline-block;font-size:calc(12px * var(--fs));border:1px solid var(--c-border-strong);
+  border-radius:4px;padding:0 5px;margin-right:6px;color:var(--c-text-muted)}
+.tznext{font-size:calc(12px * var(--fs));color:var(--c-text-muted);white-space:nowrap}
+.needpre{font-style:normal;font-size:calc(13px * var(--fs));font-weight:600;
+  color:var(--c-important-text);background:var(--c-important-bg);border-radius:4px;padding:1px 6px}
+.tzchange{margin:14px 0 0;padding:10px 14px;border-radius:8px;
+  background:var(--c-important-bg);color:var(--c-important-text);font-size:calc(15px * var(--fs))}
+.tzinfo{display:grid;grid-template-columns:max-content 1fr;gap:6px 18px;margin:0;
+  font-size:calc(15px * var(--fs))}
+.tzinfo dt{color:var(--c-text-muted)}
+.tzinfo dd{margin:0;overflow-wrap:anywhere}
+.tzinfo dd .codebtn{margin:0 6px 4px 0}
+.linkbtn{background:none;border:none;padding:0;color:var(--c-link);cursor:pointer;
+  font:inherit;font-size:calc(15px * var(--fs));text-decoration:underline;text-underline-offset:3px}
+.linkbtn:hover{color:var(--c-link-hover)}
+/* 支付標準詳細頁的「提到此代碼的特材條文」。原文句子用引文框，
+   讓人一眼看出那是健保署的原話、不是本站的判讀。 */
+.tzmention{list-style:none;margin:0;padding:0}
+.tzmention > li{padding:12px 0;border-top:1px solid var(--c-border)}
+.tzmention > li:first-child{border-top:none;padding-top:4px}
+.tzmhead{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;margin-bottom:6px;
+  font-size:calc(15px * var(--fs))}
+.tzmquote{margin:6px 0 0;padding:8px 12px;border-left:3px solid var(--c-border-strong);
+  background:var(--c-bg);border-radius:0 6px 6px 0;white-space:pre-wrap;line-height:1.8;
+  font-size:calc(15px * var(--fs));overflow-wrap:anywhere}
+.tzmquote b{background:var(--c-important-bg);color:var(--c-important-text);border-radius:3px;padding:0 2px}
+/* 同藥品表：全站 table 的 min-width:640px 要解除，品名欄才折得下來。
+   事前審查在詳細頁看得到，手機直式先收；點數是查特材最常要的，留著。 */
+@media (max-width:900px){
+  .tztable{min-width:0}
+  .tzinfo{grid-template-columns:1fr;gap:0}
+  .tzinfo dd{margin-bottom:8px}
+}
+@media (max-width:640px){
+  .tztable th:nth-child(4),.tztable td:nth-child(4){display:none}
+  /* 英文品名有「"MEDTRONIC"RELIANT」這種中間沒空格的長字串，表格最小寬度
+     會被它撐開，點數欄被擠出畫面（實測橫捲 78px）。手機上准它在任何地方斷。 */
+  .tztable .namebtn,.tztable .tzen,.tztable .tzsnip{overflow-wrap:anywhere}
+  .tznext{white-space:normal}
+}
 .codelink{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-decoration:none;
   background:var(--c-bg);border-radius:5px;padding:1px 7px;
   border-bottom:1px dashed var(--c-link);color:var(--c-link);display:inline-block;margin:1px 0}
