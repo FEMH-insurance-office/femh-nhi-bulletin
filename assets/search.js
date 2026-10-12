@@ -85,7 +85,7 @@
     const e = a.eff_date;
     switch (state.effective) {
       case '':         return true;
-      case 'upcoming': return !!e && e >= TODAY;
+      case 'upcoming': return (!!e && e >= TODAY) || !!a.eff_pending;
       case '30d':      return !!e && e <= TODAY && e >= shiftDays(TODAY, -30);
       case '3m':       return !!e && e <= TODAY && e >= shiftMonths(TODAY, -3);
       case 'year':     return !!e && e.slice(0, 4) === TODAY.slice(0, 4);
@@ -182,10 +182,11 @@
   <div class="metarow">
     <span class="badge t-${esc(a.type)}">${esc(a.type_name)}</span>
     ${a.pinned ? '<span class="badge b-pin">置頂</span>' : ''}
-    ${a.eff_date ? `<span class="eff${soon ? ' soon' : ''}">生效 <time datetime="${esc(a.eff_date)}">${esc(a.eff_date)}</time></span>` : ''}
+    ${a.eff_date ? `<span class="eff${soon ? ' soon' : ''}">生效 <time datetime="${esc(a.eff_date)}">${esc(a.eff_date)}</time></span>`
+      : a.eff_pending ? '<span class="eff soon">生效日待健保署公告</span>' : ''}
   </div>
   <h3><a href="${href}">${esc(a.title)}</a></h3>
-  ${a.summary ? `<p class="sum">${esc(a.summary)}</p>` : ''}
+  ${a.summary ? `<p class="sum${a.summary.length > 400 ? ' long' : ''}">${esc(a.summary)}</p>` : ''}
   ${a.depts.length ? deptTags(a) : ''}
   ${a.changes.length ? `<div class="tags ch">${a.changes.map(c =>
       `<span class="tag chg">${esc(c)}</span>`).join('')}</div>` : ''}

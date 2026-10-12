@@ -434,6 +434,11 @@ a.stat:hover { background: var(--c-surface-raised); }
 .card h3 { margin: 8px 0 6px; font-size: calc(18px * var(--fs)); font-weight: 500; line-height: 1.6; }
 .card h3 a { text-decoration: none; }
 .sum { margin: 6px 0 10px; font-size: calc(17px * var(--fs)); line-height: 1.75; white-space: pre-line; }
+/* 會議重點這類長篇整理，在清單裡整段攤開會把其他公告推到好幾個畫面之外。
+   只收合長的——一般公告的重點說明一兩句，維持全文顯示。全文在詳情頁。 */
+.card .sum.long {
+  display: -webkit-box; -webkit-line-clamp: 6; -webkit-box-orient: vertical; overflow: hidden;
+}
 
 .eff { font-size: calc(15px * var(--fs)); color: var(--c-text-muted); }
 .eff.soon, .soon { color: var(--c-important-text); font-weight: 600; }
@@ -1061,4 +1066,65 @@ body.noscroll #top { display: none; }
 }
 @media (max-width: 900px) {
   .panel-std { padding: 16px; border-radius: 10px; }
+}
+
+/* ---------- 會議決議快訊 ----------
+   一場會議跨十幾個科，頁面是「依科別跳轉列 + 每科一張卡」。
+   決議狀態用顏色區分：通過＝苔綠、修正後／附條件＝琥珀、再議＝磚紅，
+   沿用網站既有的調升／重要／警示三組色票，明暗模式都有對應值。 */
+.badge.b-meet { background: var(--c-board-regulation-bg); color: var(--c-board-regulation-text); }
+.mmeta { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 8px 24px; }
+.mmeta dt { flex: 0 0 auto; white-space: nowrap; }
+.mfold > summary { gap: 8px; align-items: center; }
+.mfold .mmeta { margin: 12px 0 0; }
+.mtoc {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r); padding: 14px 16px; margin: 22px 0;
+}
+.mtoc > b { display: block; margin-bottom: 6px; }
+.mtocg { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; margin: 8px 0; }
+.mtocg .g { flex: 0 0 5.5em; color: var(--c-text-muted); font-size: calc(15px * var(--fs)); }
+.mtocg .jbtns { flex: 1 1 260px; display: flex; flex-wrap: wrap; gap: 6px; }
+.mtocg a {
+  display: inline-flex; align-items: center; gap: 6px; text-decoration: none;
+  border: 1px solid var(--c-border); border-left-width: 4px; border-radius: var(--r-tag);
+  padding: 4px 10px; background: var(--c-surface-raised); color: var(--c-text);
+  font-size: calc(15px * var(--fs));
+}
+.mtocg a i { font-style: normal; font-size: calc(13px * var(--fs)); color: var(--c-text-muted); }
+.mtocg a.st-ok   { border-left-color: var(--c-up); }
+.mtocg a.st-cond { border-left-color: var(--c-important-text); }
+.mtocg a.st-no   { border-left-color: var(--c-down); }
+.meetbody > h2 { margin: 34px 0 6px; padding-bottom: 6px; border-bottom: 2px solid var(--c-border); }
+.meetbody > p { line-height: 1.85; }
+.meetbody > hr { border: 0; border-top: 1px solid var(--c-border); margin: 28px 0; }
+.mcard {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--r); padding: 14px 18px; margin: 14px 0; scroll-margin-top: 90px;
+}
+.mcard h3 { margin: 2px 0 4px; font-size: calc(19px * var(--fs)); display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.mcard ul { padding-left: 1.3em; line-height: 1.8; }
+.mcard li { margin: 4px 0; }
+.msrc { margin: 0 0 8px; color: var(--c-text-muted); font-size: calc(14px * var(--fs)); }
+.mstat {
+  font-size: calc(13px * var(--fs)); font-weight: 600; padding: 1px 9px;
+  border-radius: var(--r-tag); white-space: nowrap;
+}
+.mstat.st-ok, .mtag.st-ok       { background: var(--c-up-bg); color: var(--c-up); }
+.mstat.st-cond, .mtag.st-cond   { background: var(--c-important-bg); color: var(--c-important-text); }
+.mstat.st-no, .mtag.st-no       { background: var(--c-down-bg); color: var(--c-down); }
+.mstat.st-other                 { background: var(--c-surface-raised); color: var(--c-text-muted); }
+.mnote {
+  background: var(--c-important-bg); border-left: 4px solid var(--c-important-text);
+  padding: 12px 16px; border-radius: 0 var(--r) var(--r) 0; margin: 16px 0; line-height: 1.8;
+}
+/* 表格只有四欄（代碼／項目／現行／調整後），不需要全站表格的 640px 最小寬度；
+   手機上讓項目名稱換行，不出現橫向捲動 */
+.mtable { min-width: 0; }
+.mtable td:nth-child(2) { overflow-wrap: anywhere; }
+.mtable th.n, .mtable td.n { text-align: right; white-space: nowrap; }
+@media (max-width: 640px) {
+  .mcard { padding: 12px 12px; }
+  .mtable th, .mtable td { padding: 8px 8px; }
+  .mtocg .g { flex-basis: 100%; }
 }
