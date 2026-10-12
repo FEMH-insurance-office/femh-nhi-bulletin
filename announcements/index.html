@@ -68,13 +68,13 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
           <b>外科系</b>
           <a href="../announcements/?department=%E5%A4%A7%E8%85%B8%E7%9B%B4%E8%85%B8%E5%A4%96%E7%A7%91">大腸直腸外科<i>3</i></a>
           <a href="../announcements/?department=%E8%83%B8%E8%85%94%E5%A4%96%E7%A7%91">胸腔外科<i>3</i></a>
-          <a href="../announcements/?department=%E9%BA%BB%E9%86%89%E9%83%A8">麻醉部<i>2</i></a>
+          <a href="../announcements/?department=%E9%BA%BB%E9%86%89%E9%83%A8">麻醉部<i>3</i></a>
+          <a href="../announcements/?department=%E7%A5%9E%E7%B6%93%E5%A4%96%E7%A7%91">神經外科<i>2</i></a>
           <a href="../announcements/?department=%E4%B8%80%E8%88%AC%E5%A4%96%E7%A7%91">一般外科<i>1</i></a>
           <a href="../announcements/?department=%E5%89%B5%E5%82%B7%E7%A7%91">創傷科<i>1</i></a>
           <a href="../announcements/?department=%E5%A4%96%E7%A7%91%E9%83%A8">外科部<i>1</i></a>
           <a href="../announcements/?department=%E6%95%B4%E5%BD%A2%E5%A4%96%E7%A7%91">整形外科<i>1</i></a>
           <a href="../announcements/?department=%E6%B3%8C%E5%B0%BF%E7%A7%91">泌尿科<i>1</i></a>
-          <a href="../announcements/?department=%E7%A5%9E%E7%B6%93%E5%A4%96%E7%A7%91">神經外科<i>1</i></a>
           <a href="../announcements/?department=%E9%AA%A8%E7%A7%91%E9%83%A8">骨科部<i>1</i></a>
         </div>
         <div class="menugrp">
@@ -114,7 +114,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
         </div>
         <div class="menugrp">
           <b>行政單位</b>
-          <a href="../announcements/?department=%E4%BF%9D%E9%9A%AA%E8%AA%B2">保險課<i>5</i></a>
+          <a href="../announcements/?department=%E4%BF%9D%E9%9A%AA%E8%AA%B2">保險課<i>6</i></a>
           <a href="../announcements/?department=%E6%95%B8%E4%BD%8D%E7%99%BC%E5%B1%95%E9%83%A8">數位發展部<i>3</i></a>
           <a href="../announcements/?department=%E5%93%81%E8%B3%AA%E7%AE%A1%E7%90%86%E4%B8%AD%E5%BF%83">品質管理中心<i>2</i></a>
           <a href="../announcements/?department=%E7%97%85%E6%AD%B7%E8%AA%B2">病歷課<i>1</i></a>
@@ -131,7 +131,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
         <div class="menugrp">
           <a href="../announcements/?type=payment-standard">支付標準<i>2</i></a>
           <a href="../announcements/?type=drug">藥品給付<i>14</i></a>
-          <a href="../announcements/?type=material">特殊材料<i>2</i></a>
+          <a href="../announcements/?type=material">特殊材料<i>3</i></a>
           <a href="../announcements/?type=quality">品質方案<i>4</i></a>
           <a href="../announcements/?type=other">其他<i>6</i></a>
         </div>
@@ -197,7 +197,9 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
           <label data-dept><input type="checkbox" name="department" value="胸腔外科">
             <span>胸腔外科</span><i>3</i></label>
           <label data-dept><input type="checkbox" name="department" value="麻醉部">
-            <span>麻醉部</span><i>2</i></label>
+            <span>麻醉部</span><i>3</i></label>
+          <label data-dept><input type="checkbox" name="department" value="神經外科">
+            <span>神經外科</span><i>2</i></label>
           <label data-dept><input type="checkbox" name="department" value="一般外科">
             <span>一般外科</span><i>1</i></label>
           <label data-dept><input type="checkbox" name="department" value="創傷科">
@@ -208,8 +210,6 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
             <span>整形外科</span><i>1</i></label>
           <label data-dept><input type="checkbox" name="department" value="泌尿科">
             <span>泌尿科</span><i>1</i></label>
-          <label data-dept><input type="checkbox" name="department" value="神經外科">
-            <span>神經外科</span><i>1</i></label>
           <label data-dept><input type="checkbox" name="department" value="骨科部">
             <span>骨科部</span><i>1</i></label>
         </div>
@@ -271,7 +271,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
         <div class="fgrp" data-grp>
           <b>行政單位</b>
           <label data-dept><input type="checkbox" name="department" value="保險課">
-            <span>保險課</span><i>5</i></label>
+            <span>保險課</span><i>6</i></label>
           <label data-dept><input type="checkbox" name="department" value="數位發展部">
             <span>數位發展部</span><i>3</i></label>
           <label data-dept><input type="checkbox" name="department" value="品質管理中心">
@@ -311,7 +311,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
         <label><input type="checkbox" name="type" value="drug">
           <span>藥品給付</span><i>14</i></label>
         <label><input type="checkbox" name="type" value="material">
-          <span>特殊材料</span><i>2</i></label>
+          <span>特殊材料</span><i>3</i></label>
         <label><input type="checkbox" name="type" value="quality">
           <span>品質方案</span><i>4</i></label>
         <label><input type="checkbox" name="type" value="other">
@@ -331,7 +331,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
 
     <div class="factions">
       <button type="button" id="clearall" class="plain">清除全部</button>
-      <button type="button" id="applymobile" class="go">顯示 <span id="mobilecount">28</span> 筆</button>
+      <button type="button" id="applymobile" class="go">顯示 <span id="mobilecount">29</span> 筆</button>
     </div>
   </aside>
 
@@ -339,7 +339,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
     <div class="chips" id="chips" hidden></div>
 
     <div class="toolbar">
-      <p class="count">共 <b id="count">28</b> 則公告</p>
+      <p class="count">共 <b id="count">29</b> 則公告</p>
       <div class="tools">
         <label>排序
           <select id="sort">
@@ -375,7 +375,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-10-08 11:59</p>
+        產出時間：2026-10-12 09:24</p>
     </div>
   </div>
 </footer>
