@@ -17,27 +17,105 @@
   const tpl = $('#sf-person');
 
   // ---------- 科別下拉多選 ----------
+  //
+  // 全選有兩層：最上面「全院全選」；各分組各自的全選。分組裡如果有一個同名的科
+  // （內科部分組裡的「內科部」），勾它就等於全選整組——主管說「我要內科部」，
+  // 意思通常就是整個內科部，不是只有「內科部」這一個標籤。沒有同名科的分組
+  // （其他科部、醫事單位…）在分組標題上放一個「全選」。
+  //
+  // 送出的仍然是一科一筆：通知名單本來就是逐科比對，全選只是勾選的捷徑。
+  const parentOf = g => g.depts.includes(g.name) ? g.name : null;
+
   function buildList(box) {
     const list = $('.msel-list', box);
-    list.innerHTML = GROUPS.map(g => `
+    const opt = (d, extra = '') => `
+          <label class="msel-o${extra ? ' parent' : ''}" data-d="${d}">
+            <input type="checkbox" class="d" value="${d}"><span>${d}</span>${extra}
+          </label>`;
+    list.innerHTML = `
+      <label class="msel-allrow"><input type="checkbox" class="all">
+        <span>全院全選（全部 ${ALL.size} 個科別）</span></label>` +
+      GROUPS.map(g => {
+        const p = parentOf(g);
+        const rest = g.depts.filter(d => d !== p);
+        return `
       <div class="msel-g" data-g="${g.name}">
-        <div class="msel-gh">${g.name}</div>
-        ${g.depts.map(d => `
-          <label class="msel-o" data-d="${d}">
-            <input type="checkbox" value="${d}"><span>${d}</span>
-          </label>`).join('')}
-      </div>`).join('');
+        <div class="msel-gh"><span>${g.name}</span>${p ? '' :
+          `<label class="msel-gall"><input type="checkbox" class="gall" data-g="${g.name}"> 全選</label>`}</div>
+        ${p ? opt(p, `<em class="hint">＝全選本組 ${g.depts.length} 科</em>`) : ''}
+        ${rest.map(d => opt(d)).join('')}
+      </div>`;
+      }).join('');
   }
 
+  const deptBoxes = box => [...box.querySelectorAll('.msel-list input.d')];
+  const groupBoxes = (box, g) => g.depts.map(d =>
+    box.querySelector(`.msel-list input.d[value="${CSS.escape(d)}"]`));
+
   function selected(box) {
-    return [...box.querySelectorAll('.msel-list input:checked')].map(i => i.value);
+    return deptBoxes(box).filter(i => i.checked).map(i => i.value);
+  }
+
+  // 已選的科別，盡量用整組表示：「全院」「內科部（全部 11 科）」，其餘逐科列
+  function summarize(box) {
+    const on = new Set(selected(box));
+    if (on.size && on.size === ALL.size) return [{ label: `全院（全部 ${ALL.size} 科）`, text: '全院', all: true }];
+    const out = [];
+    GROUPS.forEach(g => {
+      const hit = g.depts.filter(d => on.has(d));
+      if (g.depts.length > 1 && hit.length === g.depts.length) {
+        out.push({ label: `${g.name}（全部 ${g.depts.length} 科）`, text: `${g.name}（全部）`, group: g.name });
+      } else {
+        hit.forEach(d => out.push({ label: d, text: d, dept: d }));
+      }
+    });
+    return out;
+  }
+
+  // 全選框的狀態跟著實際勾選走：整組都勾了就打勾，勾了一部分顯示「部分」
+  function syncToggles(box) {
+    const all = deptBoxes(box);
+    const n = all.filter(i => i.checked).length;
+    const a = $('.msel-list input.all', box);
+    a.checked = n === all.length; a.indeterminate = n > 0 && n < all.length;
+    GROUPS.forEach(g => {
+      const gb = box.querySelector(`.msel-list input.gall[data-g="${CSS.escape(g.name)}"]`);
+      if (!gb) return;
+      const k = groupBoxes(box, g).filter(i => i.checked).length;
+      gb.checked = k === g.depts.length; gb.indeterminate = k > 0 && k < g.depts.length;
+    });
   }
 
   function renderChips(box) {
-    const v = selected(box);
-    $('.msel-chips', box).innerHTML = v.map(d =>
-      `<span class="chip">${d}<button type="button" data-rm="${d}" aria-label="移除 ${d}">×</button></span>`).join('');
-    $('.msel-ph', box).hidden = v.length > 0;
+    syncToggles(box);
+    const items = summarize(box);
+    $('.msel-chips', box).innerHTML = items.map((it, i) =>
+      `<span class="chip${it.dept ? '' : ' wide'}">${it.label}<button type="button" data-rm="${i}" aria-label="移除 ${it.label}">×</button></span>`).join('');
+    box._chips = items;
+    $('.msel-ph', box).hidden = items.length > 0;
+  }
+
+  function onChange(box, t) {
+    if (t.classList.contains('all')) {
+      deptBoxes(box).forEach(i => { i.checked = t.checked; });
+    } else if (t.classList.contains('gall')) {
+      const g = GROUPS.find(x => x.name === t.dataset.g);
+      groupBoxes(box, g).forEach(i => { i.checked = t.checked; });
+    } else if (t.classList.contains('d')) {
+      // 勾／取消同名科＝整組一起勾／取消；組內其他科單獨勾選不影響同名科
+      const g = GROUPS.find(x => parentOf(x) === t.value);
+      if (g) groupBoxes(box, g).forEach(i => { i.checked = t.checked; });
+    }
+    renderChips(box);
+  }
+
+  function removeChip(box, i) {
+    const it = (box._chips || [])[i];
+    if (!it) return;
+    if (it.all) deptBoxes(box).forEach(x => { x.checked = false; });
+    else if (it.group) groupBoxes(box, GROUPS.find(g => g.name === it.group)).forEach(x => { x.checked = false; });
+    else { const cb = box.querySelector(`.msel-list input.d[value="${CSS.escape(it.dept)}"]`); if (cb) cb.checked = false; }
+    renderChips(box);
   }
 
   function openPanel(box, open) {
@@ -50,6 +128,7 @@
 
   function filter(box, q) {
     q = q.trim();
+    $('.msel-allrow', box).hidden = !!q;      // 搜尋時「全院全選」沒有意義，先藏起來
     box.querySelectorAll('.msel-g').forEach(g => {
       let any = false;
       g.querySelectorAll('.msel-o').forEach(o => {
@@ -64,16 +143,11 @@
     buildList(box);
     $('.msel-btn', box).addEventListener('click', e => {
       const rm = e.target.closest('[data-rm]');
-      if (rm) {                       // 點標籤上的 × 只移除那一科，不打開清單
-        const cb = box.querySelector(`.msel-list input[value="${CSS.escape(rm.dataset.rm)}"]`);
-        if (cb) cb.checked = false;
-        renderChips(box);
-        return;
-      }
+      if (rm) { removeChip(box, +rm.dataset.rm); return; }   // 點標籤上的 × 不打開清單
       openPanel(box, !box.classList.contains('open'));
     });
     $('.msel-q', box).addEventListener('input', e => filter(box, e.target.value));
-    $('.msel-list', box).addEventListener('change', () => renderChips(box));
+    $('.msel-list', box).addEventListener('change', e => onChange(box, e.target));
     $('.msel-done', box).addEventListener('click', () => { openPanel(box, false); $('.msel-btn', box).focus(); });
     box.addEventListener('keydown', e => {
       if (e.key === 'Escape' && box.classList.contains('open')) {
@@ -86,6 +160,26 @@
   document.addEventListener('click', e => {
     document.querySelectorAll('.msel.open').forEach(b => { if (!b.contains(e.target)) openPanel(b, false); });
   });
+
+  // ---------- 填寫單位（下拉，最後一項「其它」自己填） ----------
+  const OTHER = '__other__';
+  (function buildUnit() {
+    const sel = $('#sf-unit');
+    sel.innerHTML = '<option value="">請選擇單位</option>' +
+      GROUPS.map(g => `<optgroup label="${g.name}">${g.depts.map(d =>
+        `<option value="${d}">${d}</option>`).join('')}</optgroup>`).join('') +
+      `<option value="${OTHER}">其它（自行填寫）</option>`;
+    sel.addEventListener('change', unitChanged);
+  })();
+  function unitChanged() {
+    const other = $('#sf-unit').value === OTHER;
+    $('#sf-unit-other').hidden = !other;
+    if (other) $('#sf-unit-other').focus();
+  }
+  function unitValue() {
+    const v = $('#sf-unit').value;
+    return v === OTHER ? clean($('#sf-unit-other').value) : v;
+  }
 
   // ---------- 人員 ----------
   function renumber() {
@@ -109,7 +203,7 @@
   $('#sf-reset').addEventListener('click', () => {
     if (!confirm('確定要清除全部內容重填？')) return;
     people.innerHTML = '';
-    $('#sf-unit').value = ''; $('#sf-by').value = '';
+    $('#sf-unit').value = ''; $('#sf-unit-other').value = ''; unitChanged(); $('#sf-by').value = '';
     $('#sf-out').hidden = true; $('#sf-err').hidden = true;
     addPerson(false);
   });
@@ -135,10 +229,10 @@
       if (!MAIL.test(mail)) errs.push(`${n}：Email 格式不對`);
       if (!depts.length) errs.push(`${n}：請至少選一個科別`);
       if (!name || !MAIL.test(mail) || !depts.length) { p.classList.add('bad'); return; }
-      rows.push({ name, mail, depts });
+      rows.push({ name, mail, depts, summary: summarize($('.msel', p)).map(x => x.text).join('、') });
     });
     if (!rows.length && !errs.length) errs.push('請至少填一位收件人');
-    return { errs, rows, unit: clean($('#sf-unit').value), by: clean($('#sf-by').value) };
+    return { errs, rows, unit: unitValue(), by: clean($('#sf-by').value) };
   }
 
   function asText({ rows, unit, by }) {
@@ -148,7 +242,7 @@
     lines.push(`共 ${rows.length} 位`, '');
     rows.forEach((r, i) => {
       lines.push(`${i + 1}. ${r.name}　${r.mail}`);
-      lines.push(`   科別：${r.depts.join('、')}`);
+      lines.push(`   科別：${r.summary}`);
     });
     lines.push('', '（以下給系統匯入用，請整段保留）');
     rows.forEach(r => r.depts.forEach(d => lines.push(`ROSTER|${d}|${r.name}|${r.mail}`)));
@@ -171,7 +265,7 @@
       method: 'POST',
       body: JSON.stringify({
         unit: data.unit, by: data.by, website: $('#sf-website').value,
-        people: data.rows.map(r => ({ name: r.name, email: r.mail, depts: r.depts })),
+        people: data.rows.map(r => ({ name: r.name, email: r.mail, depts: r.depts, summary: r.summary })),
       }),
     });
     const j = await res.json();

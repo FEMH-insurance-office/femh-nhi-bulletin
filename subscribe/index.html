@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://femh-insurance-office.github.io/femh-nhi-bulletin/assets/og-cover.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
-<link rel="stylesheet" href="../assets/style.css?v=20b17343">
+<link rel="stylesheet" href="../assets/style.css?v=27ee79d8">
 <meta name="robots" content="noindex, nofollow"><script>
 // 在畫面繪製前就套上使用者選過的字級。放在 CSS 之後、body 之前是刻意的——
 // 等到 DOMContentLoaded 才套，使用者會先看到標準字級再「跳」一下。
@@ -131,7 +131,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
         </div>
         <div class="menugrp">
           <b>行政單位</b>
-          <a href="../announcements/?department=%E4%BF%9D%E9%9A%AA%E8%AA%B2">保險課<i>6</i></a>
+          <a href="../announcements/?department=%E4%BF%9D%E9%9A%AA%E8%AA%B2">保險課<i>7</i></a>
           <a href="../announcements/?department=%E6%95%B8%E4%BD%8D%E7%99%BC%E5%B1%95%E9%83%A8">數位發展部<i>3</i></a>
           <a href="../announcements/?department=%E7%97%85%E6%AD%B7%E8%AA%B2">病歷課<i>1</i></a>
           <a href="../announcements/?department=%E8%B3%87%E6%9D%90%E8%99%95">資材處<i>1</i></a>
@@ -149,7 +149,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
           <a href="../announcements/?type=drug">藥品給付<i>14</i></a>
           <a href="../announcements/?type=material">特殊材料<i>3</i></a>
           <a href="../announcements/?type=quality">品質方案<i>4</i></a>
-          <a href="../announcements/?type=other">其他<i>6</i></a>
+          <a href="../announcements/?type=other">其他<i>7</i></a>
         </div>
       </div>
     </details>
@@ -180,7 +180,10 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
 <form id="sf" novalidate autocomplete="off" data-endpoint="https://script.google.com/macros/s/AKfycbzhYefDa0V9u1VXcRWorRRXvbIPKnWJi-XshJ6sQA_2BC3DP9EKFfj-Sh8IKBguhABq/exec">
   <div class="sf-hp" aria-hidden="true"><label>請勿填寫<input id="sf-website" type="text" tabindex="-1" autocomplete="off"></label></div>
   <section class="sf-who">
-    <label>填寫單位<input id="sf-unit" type="text" placeholder="例：心臟血管外科" maxlength="40"></label>
+    <label>填寫單位
+      <select id="sf-unit"></select>
+      <input id="sf-unit-other" type="text" placeholder="請填寫單位名稱" maxlength="40" hidden>
+    </label>
     <label>填寫人<input id="sf-by" type="text" placeholder="例：王大明 主任" maxlength="40"></label>
   </section>
 
@@ -250,7 +253,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-10-14 09:19</p>
+        產出時間：2026-10-14 09:33</p>
     </div>
   </div>
 </footer>
@@ -352,6 +355,6 @@ document.addEventListener('click',e=>{
   });
 });
 </script>
-<script src="../assets/subscribe.js?v=e43a8a5a" defer></script>
+<script src="../assets/subscribe.js?v=19460394" defer></script>
 </body>
 </html>
