@@ -211,6 +211,21 @@ main { padding-bottom: 60px; }
 .fsctl .m { font-size: 17px; }
 .fsctl .l { font-size: 20px; }
 
+/* 手機版字級切換（頁首右上角），桌機不顯示 */
+.fscycle {
+  display: none; margin-left: auto; flex: none; align-items: baseline; gap: 5px;
+  font-family: inherit; cursor: pointer; white-space: nowrap;
+  min-height: 40px; padding: 6px 10px; align-self: center;
+  border: 1px solid var(--c-border-strong); border-radius: var(--r);
+  background: var(--c-surface); color: var(--c-text);
+}
+.fscycle .aa { font-size: 18px; font-weight: 600; line-height: 1; }
+/* 跟桌機那三顆一樣，不跟著 --fs 放大，按鈕才不會越切越大把站名擠掉 */
+.fscycle .lv { font-size: 14px; line-height: 1; }
+html[data-fs="l"] .fscycle .aa { font-size: 21px; }
+html[data-fs="xl"] .fscycle .aa { font-size: 24px; }
+.brand .title { min-width: 0; }
+
 .menu { position: relative; }
 .menu > summary { list-style: none; }
 .menu > summary::-webkit-details-marker { display: none; }
@@ -802,17 +817,15 @@ body.noscroll #top { display: none; }
   #top { right: 12px; bottom: 12px; padding: 0 14px; }
   #top .tx { display: none; }
 
-  /* 主選單在手機上是橫向捲動的，字級控制排在最後會整組捲到畫面外
-     （實測 left 落在 498px，視窗只有 375px）——這是無障礙功能，
-     不能藏在要側捲才看得到的地方。改成 sticky 貼在右緣，
-     連結在它底下捲過去。 */
-  .fsctl {
-    position: sticky; right: 0; padding: 7px 4px 7px 10px;
-    background: var(--c-surface);
-    box-shadow: -10px 0 10px -7px rgba(0,0,0,.2);
-  }
-  .fsctl > b { display: none; }
-  .fsctl button { min-height: 34px; padding: 3px 8px; }
+  /* 主選單在手機上是橫向捲動的。字級控制原本 sticky 貼在選單右緣，
+     三顆按鈕佔掉將近一半寬度，把後面的選項蓋住了。改放頁首右上角，
+     一顆按鈕循環切換；選單裡的那組藏起來。 */
+  .mainnav .fsctl { display: none; }
+  .fscycle { display: inline-flex; }
+  /* 頁首右邊多了字級按鈕，站名要讓出位置：間距縮小、只在「／」斷行，
+     不要斷成「健保新」「知」 */
+  .brand { gap: 12px; }
+  .hero .home span { white-space: nowrap; }
 }
 
 /* ---------- 列印 ---------- */

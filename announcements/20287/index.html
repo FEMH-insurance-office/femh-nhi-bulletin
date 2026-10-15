@@ -22,7 +22,7 @@
 <meta name="twitter:image" content="https://femh-insurance-office.github.io/femh-nhi-bulletin/assets/og-cover.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/favicon-32.png">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon.png">
-<link rel="stylesheet" href="../../assets/style.css?v=27ee79d8">
+<link rel="stylesheet" href="../../assets/style.css?v=97a1aa8f">
 <script>
 // 在畫面繪製前就套上使用者選過的字級。放在 CSS 之後、body 之前是刻意的——
 // 等到 DOMContentLoaded 才套，使用者會先看到標準字級再「跳」一下。
@@ -42,9 +42,12 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
       <span class="sr">醫療事務處</span>
     </a>
     <div class="title">
-      <a class="home" href="../../index.html">健保公告／健保新知</a>
+      <a class="home" href="../../index.html"><span>健保公告／</span><span>健保新知</span></a>
       <p class="sub">醫療事務處 保險課　‧　健保署公告查詢與變更摘要</p>
     </div>
+    <button type="button" class="fscycle" aria-label="文字大小：標準（點一下切換）">
+      <span class="aa" aria-hidden="true">Aa</span><span class="lv">標準</span>
+    </button>
   </div>
 </header>
 
@@ -191,7 +194,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-10-14 09:33</p>
+        產出時間：2026-10-15 13:10</p>
     </div>
   </div>
 </footer>
@@ -242,10 +245,24 @@ topBtn.addEventListener('click',()=>{
     btns.forEach(b=>b.setAttribute('aria-pressed', String((b.dataset.fs||'')===(v||''))));
     try{ v ? localStorage.setItem('nhi:fs',v) : localStorage.removeItem('nhi:fs'); }catch(e){}
   };
+  const cyc=document.querySelector('.fscycle');
+  const LV=[['','標準'],['l','大'],['xl','特大']];
+  const apply2=(v)=>{
+    apply(v);
+    if(!cyc) return;
+    const name=(LV.find(x=>x[0]===(v||''))||LV[0])[1];
+    cyc.querySelector('.lv').textContent=name;
+    cyc.setAttribute('aria-label','文字大小：'+name+'（點一下切換）');
+  };
   box.addEventListener('click',e=>{
-    const b=e.target.closest('button'); if(b) apply(b.dataset.fs||'');
+    const b=e.target.closest('button'); if(b) apply2(b.dataset.fs||'');
   });
-  apply(document.documentElement.dataset.fs||'');   // 同步 <head> 那段已套用的值
+  if(cyc) cyc.addEventListener('click',()=>{
+    const cur=document.documentElement.dataset.fs||'';
+    const i=LV.findIndex(x=>x[0]===cur);
+    apply2(LV[(i+1)%LV.length][0]);
+  });
+  apply2(document.documentElement.dataset.fs||'');   // 同步 <head> 那段已套用的值
 })();
 
 // 下拉選單：點外面或按 Esc 就關。
