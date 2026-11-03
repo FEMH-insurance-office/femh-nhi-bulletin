@@ -711,6 +711,7 @@
     var p = params();
     clearDetail(p);
     if (sq.value.trim()) { p.set('q', sq.value.trim()); } else { p.delete('q'); }
+    if (sq.value.trim() && window.nhiTrack) { window.nhiTrack('standard', sq.value.trim()); }
     setUrl(p);
     apply();
   });
@@ -742,6 +743,12 @@
   });
 
   window.addEventListener('popstate', apply);
+
+  // 從首頁搜尋框或別人傳來的連結帶 ?q= 進來，也算一次查詢
+  (function () {
+    var q0 = (params().get('q') || '').trim();
+    if (q0 && window.nhiTrackOnce) { window.nhiTrackOnce('standard', q0); }
+  })();
 
   // 兩份索引一起載。**其中一份掛掉不該讓整頁空白**——規範庫是另一套系統
   // 每週更新的，它沒產出時支付標準還是要查得到。特材在背景補上。

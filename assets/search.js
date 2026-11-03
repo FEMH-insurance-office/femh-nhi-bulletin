@@ -304,6 +304,7 @@
   $('searchbar').addEventListener('submit', (e) => {
     e.preventDefault();
     collect(true);
+    if (state.q && window.nhiTrack) window.nhiTrack('announcements', state.q);
     // 關鍵字改了而使用者沒指定排序時，select 要跟著回到自動解析的值，
     // 否則畫面上顯示的排序跟實際套用的不一致
     if (!sortTouched) $('sort').value = state.q ? 'relevance' : 'announcement-date';
@@ -412,4 +413,9 @@
     .catch(() => {
       list.innerHTML = '<p class="empty">公告資料載入失敗，請重新整理頁面。</p>';
     });
+  // 帶著 ?q= 打開公告查詢（別人傳來的查詢結果連結）也算一次
+  {
+    const q0 = (new URLSearchParams(location.search).get('q') || '').trim();
+    if (q0 && window.nhiTrackOnce) window.nhiTrackOnce('announcements', q0);
+  }
 })();

@@ -270,7 +270,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-11-03 09:05</p>
+        產出時間：2026-11-03 09:27</p>
     </div>
   </div>
 </footer>
@@ -385,6 +385,35 @@ document.addEventListener('click',e=>{
     if(!d.contains(e.target)) d.open=false;
   });
 });
+</script>
+<script>
+(function(){
+  var EP = "https://script.google.com/macros/s/AKfycbzhYefDa0V9u1VXcRWorRRXvbIPKnWJi-XshJ6sQA_2BC3DP9EKFfj-Sh8IKBguhABq/exec";
+  var local = location.protocol === 'file:' ||
+    /^(localhost|127\.|\[::1\]$|.*\.localhost$)/.test(location.hostname);
+  function send(page, q){
+    q = String(q || '').trim().slice(0, 50);
+    if (!q || local || !navigator.sendBeacon) return;
+    if (/@/.test(q) || /[A-Za-z][12]\d{8}/.test(q) || /\d{9,}/.test(q)) q = '（已隱藏）';
+    try {
+      navigator.sendBeacon(EP, new Blob([JSON.stringify({action: 'search', page: page, q: q})],
+                                         {type: 'text/plain'}));
+    } catch (e) {}
+  }
+  // 按搜尋：一定算一次。順手記住，重新整理同一頁不要再算
+  window.nhiTrack = function(page, q){
+    try { sessionStorage.setItem('nhi:tq:' + page, q); } catch (e) {}
+    send(page, q);
+  };
+  // 帶著 ?q= 打開頁面（首頁搜尋框、別人傳來的連結）：同一個分頁重新整理不重複算
+  window.nhiTrackOnce = function(page, q){
+    try {
+      if (sessionStorage.getItem('nhi:tq:' + page) === q) return;
+      sessionStorage.setItem('nhi:tq:' + page, q);
+    } catch (e) {}
+    send(page, q);
+  };
+})();
 </script>
 <script src="../assets/subscribe.js?v=19460394" defer></script>
 </body>
