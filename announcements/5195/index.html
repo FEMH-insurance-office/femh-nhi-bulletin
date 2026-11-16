@@ -299,14 +299,14 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
       <span class="badge t-quality">品質方案</span>
     </li>
     <li>
-      <time datetime="2026-08-24">2026-08-24</time>
-      <a href="../../announcements/20377/">檢送衛生福利部發布修正「全民健康保險醫療服務給付項目及支付標準」部分診療項目,並自中華民國一百十五年九月一日生效。</a>
-      <span class="badge t-payment-standard">支付標準</span>
+      <time datetime="2026-04-16">2026-04-16</time>
+      <a href="../../announcements/19832/">復健病房試辦計畫</a>
+      <span class="badge t-quality">品質方案</span>
     </li>
     <li>
-      <time datetime="2026-11-10">2026-11-10</time>
-      <a href="../../announcements/20700/">預告修正「全民健康保險醫療服務給付項目及支付標準」部分診療項目草案</a>
-      <span class="badge t-payment-standard">支付標準</span>
+      <time datetime="2026-07-17">2026-07-17</time>
+      <a href="../../announcements/20287/">公告115年度「全民健康保險復健病房試辦計畫」承作醫院名單</a>
+      <span class="badge t-quality">品質方案</span>
     </li>
   </ul>
 </section>
@@ -327,7 +327,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-11-12 10:01</p>
+        產出時間：2026-11-16 09:03</p>
     </div>
   </div>
 </footer>
@@ -470,6 +470,19 @@ document.addEventListener('click',e=>{
     } catch (e) {}
     send(page, q);
   };
+  // 瀏覽計次：每開一頁送一筆（只送網址路徑，不含 ? 後面的參數）。
+  // 這個分頁的第一頁標成「新造訪」；按重新整理不算。
+  if (!local && navigator.sendBeacon) {
+    try {
+      var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+      if (!(nav && nav.type === 'reload')) {
+        var first = 1;
+        try { first = sessionStorage.getItem('nhi:visit') ? 0 : 1; sessionStorage.setItem('nhi:visit', '1'); } catch (e) {}
+        navigator.sendBeacon(EP, new Blob([JSON.stringify({action: 'view', path: location.pathname, n: first})],
+                                           {type: 'text/plain'}));
+      }
+    } catch (e) {}
+  }
 })();
 </script>
 <script>

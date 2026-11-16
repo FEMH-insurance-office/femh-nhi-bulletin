@@ -171,13 +171,13 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
       <span class="badge t-material">特殊材料</span>
     </li>
     <li>
-      <time datetime="2026-09-15">2026-09-15</time>
-      <a href="../../announcements/vpn9687c8ddc757/">「“新港”呼吸器」之醫材安全警訊</a>
+      <time datetime="2026-11-12">2026-11-12</time>
+      <a href="../../announcements/vpn2342f9992f32/">「&#34;熠隆&#34; 電動或氣動式外科手術檯、手術椅及其附件 (未滅菌)(衛部醫器輸壹字第021726號)」之醫材安全警訊</a>
       <span class="badge t-material">特殊材料</span>
     </li>
     <li>
-      <time datetime="2026-10-07">2026-10-07</time>
-      <a href="../../announcements/20478/">公告新增全民健康保險特材自付差額類別「脊髓刺激器」計13項暨其給付規定,自115年11月1日生效。</a>
+      <time datetime="2026-11-13">2026-11-13</time>
+      <a href="../../announcements/vpn2dd04aa569f4/">「“泰利福亞諾” 壓力注射型週邊置入中央靜脈導管組(衛部醫器輸字第034304號)」之醫材安全警訊</a>
       <span class="badge t-material">特殊材料</span>
     </li>
   </ul>
@@ -201,7 +201,7 @@ try { var f = localStorage.getItem('nhi:fs'); if (f) document.documentElement.da
            width="106" height="96" alt="">
       <p>整理單位：<strong>醫療事務處 保險課</strong><br>
         資料來源：<a href="https://www.nhi.gov.tw/" rel="noreferrer">衛生福利部中央健康保險署</a><br>
-        產出時間：2026-11-12 10:01</p>
+        產出時間：2026-11-16 09:03</p>
     </div>
   </div>
 </footer>
@@ -344,6 +344,19 @@ document.addEventListener('click',e=>{
     } catch (e) {}
     send(page, q);
   };
+  // 瀏覽計次：每開一頁送一筆（只送網址路徑，不含 ? 後面的參數）。
+  // 這個分頁的第一頁標成「新造訪」；按重新整理不算。
+  if (!local && navigator.sendBeacon) {
+    try {
+      var nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+      if (!(nav && nav.type === 'reload')) {
+        var first = 1;
+        try { first = sessionStorage.getItem('nhi:visit') ? 0 : 1; sessionStorage.setItem('nhi:visit', '1'); } catch (e) {}
+        navigator.sendBeacon(EP, new Blob([JSON.stringify({action: 'view', path: location.pathname, n: first})],
+                                           {type: 'text/plain'}));
+      }
+    } catch (e) {}
+  }
 })();
 </script>
 <script>
